@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="assets/images/favicon.ico">
+      <title>VC-chain</title>
+      <link href="assets/plugins/jquery.filer/css/jquery.filer.css" rel="stylesheet" />
+      <link href="assets/plugins/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+      <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+      <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+   </head>
+   <body class="fixed-left">
+      <div id="wrapper">
+      <div class="topbar">
+         <div class="topbar-left">
+            <a href="index.html" class="logo">
+            <i class="fa fa-link"></i>
+            <span>VC-chain</span>
+            </a>
+         </div>
+         <nav class="navbar-custom">
+            <ul class="list-inline float-right mb-0">
+               <li class="list-inline-item dropdown notification-list">
+                  <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="index.html#" role="button" aria-haspopup="false" aria-expanded="false">
+                  <img src="assets/images/users/ccd-avatar.jpg" alt="user" class="rounded-circle">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
+                     <div class="dropdown-item noti-title">
+                        <h5 class="text-overflow"><small>Hi! CCD</small> </h5>
+                     </div>
+                     <a href="javascript:void(0);" class="dropdown-item notify-item">
+                     <i class="zmdi zmdi-settings"></i> <span>Settings</span>
+                     </a>
+                     <a href="javascript:void(0);" class="dropdown-item notify-item">
+                     <i class="zmdi zmdi-power"></i> <span>Logout</span>
+                     </a>
+                  </div>
+               </li>
+            </ul>
+            <ul class="list-inline menu-left mb-0">
+               <li class="float-left">
+                  <button class="button-menu-mobile open-left waves-light waves-effect">
+                  <i class="zmdi zmdi-menu"></i>
+                  </button>
+               </li>
+            </ul>
+         </nav>
+      </div>
+      <div class="left side-menu">
+      <div class="sidebar-inner slimscrollleft">
+         <div id="sidebar-menu">
+            <ul>
+               <li>
+                  <div class="navbar-user-container">
+                     <img src="assets/images/users/ccd-avatar.jpg" alt="user" class="rounded-circle navbar-user-img">
+                     <div class="wid-u-info user-info-container">
+                        <h5 class="m-t-20 m-b-5 user-info">Cyprien Dcunha</h5>
+                        <div class="inline">
+                           <span class="inline navbar-user-name text-info font-weight-bold">CCD</span>
+                        </div>
+                        <p class="text-muted mb-0 font-13">dcunha.cyprien@gmail.com</p>
+                     </div>
+                     <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
+                     <span class="btn-label"><i class="icon-user-follow"></i>
+                     </span>Follow</button>
+                     <div>
+               </li>
+               <li class="text-muted menu-title">Navigation</li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+               </li>
+            </ul>
+            <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+         </div>
+         <div class="content-page">
+            <div class="content">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-xl-12">
+                        <div class="page-title-box">
+                           <h4 class="page-title float-left">Add Project</h4>
+                           <ol class="breadcrumb float-right">
+                              <li class="breadcrumb-item"><a href="index.html#">VC-Chain</a></li>
+                              <li class="breadcrumb-item"><a href="index.html#">CCD</a></li>
+                              <li class="breadcrumb-item"><a href="index.html#">Projects</a></li>
+                              <li class="breadcrumb-item active">Add</li>
+                           </ol>
+                           <div class="clearfix"></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="card-box">
+                           <form action="#">
+                              <div class="row">
+                                 <div class="col-sm-12 col-xs-12 col-md-6">
+                                    <div class="form-group">
+                                       <label for="projectnameinput">Project name</label><span class="text-danger">*</span>
+                                       <input type="email" class="form-control" id="projectnameinput" placeholder="Enter project name">
+                                       <small class="text-muted">A-Z a-z 0-9 _ - only allowed
+                                       </small>
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-12 col-xs-12 col-md-6">
+                                    <div class="form-group">
+                                       <label for="projectnameinput">Branch name</label><span class="text-danger">*</span>
+                                       <input type="email" class="form-control" id="projectnameinput" placeholder="Enter default branch name">
+                                       <small class="text-muted">A-Z a-z 0-9 _ - only allowed
+                                       </small>
+                                    </div>
+                                 </div>
+                              </div>
+                              <p class="text-muted mb-0 font-12">&nbsp</p>
+                              <div class="row">
+                                 <div class="col-sm-12 col-xs-12">
+                                    <h4 class="header-title m-t-0">Add Files</h4>
+                                    <div class="p-20">
+                                       <div class="form-group clearfix">
+                                          <div class="col-sm-12 padding-left-0 padding-right-0">
+                                             <input type="file" name="files[]" id="filer_input1" multiple="multiple">
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group  m-b-0" style="margin-left: 30px;">
+                                 <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                 Add Project
+                                 </button>
+                                 <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                 Cancel
+                                 </button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <footer class="footer text-right">
+            2017 © VC-Chain.
+         </footer>
+      </div>
+      <script>
+         var resizefunc = [];
+      </script>
+      <script src="assets/js/jquery.min.js"></script>
+      <script src="assets/js/tether.min.js"></script>
+      <script src="assets/js/bootstrap.min.js"></script>
+      <script src="assets/js/detect.js"></script>
+      <script src="assets/js/fastclick.js"></script>
+      <script src="assets/js/jquery.blockUI.js"></script>
+      <script src="assets/js/waves.js"></script>
+      <script src="assets/js/jquery.slimscroll.js"></script>
+      <script src="assets/plugins/jquery.filer/js/jquery.filer.min.js"></script>
+      <script src="assets/js/jquery.app.js"></script>
+      <script src="assets/pages/jquery.fileuploads.init.js"></script>
+   </body>
+</html>

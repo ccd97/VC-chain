@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="assets/images/favicon.ico">
+      <title>VC-chain</title>
+      <link rel="stylesheet" href="assets/plugins/morris/morris.css">
+      <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+      <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+   </head>
+   <body class="fixed-left">
+      <div id="wrapper">
+      <div class="topbar">
+         <div class="topbar-left">
+            <a href="index.html" class="logo">
+            <i class="fa fa-link"></i>
+            <span>VC-chain</span>
+            </a>
+         </div>
+         <nav class="navbar-custom">
+            <ul class="list-inline float-right mb-0">
+               <li class="list-inline-item dropdown notification-list">
+                  <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="index.html#" role="button" aria-haspopup="false" aria-expanded="false">
+                  <img src="assets/images/users/ccd-avatar.jpg" alt="user" class="rounded-circle">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
+                     <div class="dropdown-item noti-title">
+                        <h5 class="text-overflow"><small>Hi! CCD</small> </h5>
+                     </div>
+                     <a href="javascript:void(0);" class="dropdown-item notify-item">
+                     <i class="zmdi zmdi-settings"></i> <span>Settings</span>
+                     </a>
+                     <a href="javascript:void(0);" class="dropdown-item notify-item">
+                     <i class="zmdi zmdi-power"></i> <span>Logout</span>
+                     </a>
+                  </div>
+               </li>
+            </ul>
+            <ul class="list-inline menu-left mb-0">
+               <li class="float-left">
+                  <button class="button-menu-mobile open-left waves-light waves-effect">
+                  <i class="zmdi zmdi-menu"></i>
+                  </button>
+               </li>
+            </ul>
+         </nav>
+      </div>
+      <div class="left side-menu">
+      <div class="sidebar-inner slimscrollleft">
+         <div id="sidebar-menu">
+            <ul>
+               <li>
+                  <div class="navbar-user-container">
+                     <img src="assets/images/users/ccd-avatar.jpg" alt="user" class="rounded-circle navbar-user-img">
+                     <div class="wid-u-info user-info-container">
+                        <h5 class="m-t-20 m-b-5 user-info">Cyprien Dcunha</h5>
+                        <div class="inline">
+                           <span class="inline navbar-user-name text-info font-weight-bold">CCD</span>
+                        </div>
+                        <p class="text-muted mb-0 font-13">dcunha.cyprien@gmail.com</p>
+                     </div>
+                     <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
+                     <span class="btn-label"><i class="icon-user-follow"></i>
+                     </span>Follow</button>
+                     <div>
+               </li>
+               <li class="text-muted menu-title">Navigation</li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+               </li>
+               <li class="has_sub">
+               <a href="#" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+               </li>
+            </ul>
+            <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+         </div>
+         <div class="content-page">
+            <div class="content">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-xl-12">
+                        <div class="page-title-box">
+                           <h4 class="page-title float-left">Dashboard</h4>
+                           <ol class="breadcrumb float-right">
+                              <li class="breadcrumb-item"><a href="index.html#">VC-Chain</a></li>
+                              <li class="breadcrumb-item"><a href="index.html#">CCD</a></li>
+                              <li class="breadcrumb-item active">Dashboard</li>
+                           </ol>
+                           <div class="clearfix"></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                           <i class="icon-layers float-right text-muted"></i>
+                           <h6 class="text-muted text-uppercase m-b-20">Projects</h6>
+                           <h2 class="m-b-20" data-plugin="counterup">6</h2>
+                        </div>
+                     </div>
+                     <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                           <i class="icon-star float-right text-muted"></i>
+                           <h6 class="text-muted text-uppercase m-b-20">Stars</h6>
+                           <h2 class="m-b-20" data-plugin="counterup">10</h2>
+                        </div>
+                     </div>
+                     <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                           <i class="fa fa-code-fork float-right text-muted"></i>
+                           <h6 class="text-muted text-uppercase m-b-20">Forks</h6>
+                           <h2 class="m-b-20" data-plugin="counterup">3</h2>
+                        </div>
+                     </div>
+                     <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-box tilebox-one">
+                           <i class="icon-user-following float-right text-muted"></i>
+                           <h6 class="text-muted text-uppercase m-b-20">Followers</h6>
+                           <h2 class="m-b-20" data-plugin="counterup">1</h2>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-xs-12 col-lg-12 col-xl-8">
+                        <div class="card-box">
+                           <h4 class="header-title m-t-0 m-b-20">Commits Statistics</h4>
+                           <div class="text-center">
+                              <ul class="list-inline chart-detail-list m-b-0">
+                                 <li class="list-inline-item">
+                                    <h6 style="color: #3db9dc;"><i class="zmdi zmdi-circle-o m-r-5"></i>Commits</h6>
+                                 </li>
+                              </ul>
+                           </div>
+                           <div id="morris-bar-stacked" style="height: 320px;"></div>
+                        </div>
+                     </div>
+                     <div class="col-xs-12 col-lg-12 col-xl-4">
+                        <div class="card-box">
+                           <h4 class="header-title m-t-0 m-b-30">Timeline</h4>
+                           <div class="tab-pane fade active show" id="home-2">
+                              <div class="nicescroll" style="height: 353px; padding-left: 4px;">
+                                 <div class="timeline-2">
+                                    <div class="time-item">
+                                       <div class="item-info">
+                                          <small class="text-muted">5 minutes ago</small>
+                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> pushed a commit to <strong class="text-success">xyz</strong> project on <span class="text-success">stagging</span> branch</p>
+                                       </div>
+                                    </div>
+                                    <div class="time-item">
+                                       <div class="item-info">
+                                          <small class="text-muted">10 hours ago</small>
+                                          <p><strong><a href="index.html#" class="text-info">imtoobose</a></strong> starred <strong class="text-success">CCD/mnop</strong> project</p>
+                                       </div>
+                                    </div>
+                                    <div class="time-item">
+                                       <div class="item-info">
+                                          <small class="text-muted">1 day ago</small>
+                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> pushed a commit to <strong class="text-success">mnop</strong> project on <span class="text-success">master</span> branch</p>
+                                       </div>
+                                    </div>
+                                    <div class="time-item">
+                                       <div class="item-info">
+                                          <small class="text-muted">2 days ago</small>
+                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> forked project <strong class="text-success">imtoobose/pqrs</strong> to <strong class="text-success">CCD/mnop</strong> branch</p>
+                                       </div>
+                                    </div>
+                                    <div class="time-item">
+                                       <div class="item-info">
+                                          <small class="text-muted">10 day ago</small>
+                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> starred <strong class="text-success">imtoobose/pqrs</strong> project</p>
+                                       </div>
+                                    </div>
+                                    <div class="time-item">
+                                       <div class="item-info">
+                                          <small class="text-muted">11 day ago</small>
+                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> is now following <strong class="text-success">imtoobose</strong> project</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <footer class="footer text-right">
+            2017 © VC-Chain.
+         </footer>
+      </div>
+      <script>
+         var resizefunc = [];
+      </script>
+      <script src="assets/js/jquery.min.js"></script>
+      <script src="assets/js/tether.min.js"></script>
+      <script src="assets/js/bootstrap.min.js"></script>
+      <script src="assets/js/detect.js"></script>
+      <script src="assets/js/fastclick.js"></script>
+      <script src="assets/js/jquery.blockUI.js"></script>
+      <script src="assets/js/waves.js"></script>
+      <script src="assets/js/jquery.nicescroll.js"></script>
+      <script src="assets/js/jquery.scrollTo.min.js"></script>
+      <script src="assets/js/jquery.slimscroll.js"></script>
+      <script src="assets/plugins/morris/morris.min.js"></script>
+      <script src="assets/plugins/raphael/raphael-min.js"></script>
+      <script src="assets/plugins/waypoints/lib/jquery.waypoints.js"></script>
+      <script src="assets/plugins/counterup/jquery.counterup.min.js"></script>
+      <script src="assets/js/jquery.core.js"></script>
+      <script src="assets/js/jquery.app.js"></script>
+      <script src="assets/pages/jquery.dashboard.js"></script>
+   </body>
+</html>
