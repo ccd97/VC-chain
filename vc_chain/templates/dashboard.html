@@ -14,7 +14,7 @@
       <div id="wrapper">
       <div class="topbar">
          <div class="topbar-left">
-            <a href="index.html" class="logo">
+            <a href="javascript:void(0);" class="logo">
             <i class="fa fa-link"></i>
             <span>VC-chain</span>
             </a>
@@ -22,14 +22,14 @@
          <nav class="navbar-custom">
             <ul class="list-inline float-right mb-0">
                <li class="list-inline-item dropdown notification-list">
-                  <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="index.html#" role="button" aria-haspopup="false" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                   <img src="{% static 'images/users/ccd-avatar.jpg' %}" alt="user" class="rounded-circle">
                   </a>
                   <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
                      <div class="dropdown-item noti-title">
                         <h5 class="text-overflow"><small>Hi! CCD</small> </h5>
                      </div>
-                     <a href="javascript:void(0);" class="dropdown-item notify-item">
+                     <a href="{% url 'edit-profile' user.username|lower %}" class="dropdown-item notify-item">
                      <i class="zmdi zmdi-settings"></i> <span>Settings</span>
                      </a>
                      <a href="javascript:void(0);" class="dropdown-item notify-item">
@@ -55,11 +55,11 @@
                   <div class="navbar-user-container">
                      <img src="{% static 'images/users/ccd-avatar.jpg' %}" alt="user" class="rounded-circle navbar-user-img">
                      <div class="wid-u-info user-info-container">
-                        <h5 class="m-t-20 m-b-5 user-info">Cyprien Dcunha</h5>
+                        <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
                         <div class="inline">
-                           <span class="inline navbar-user-name text-info font-weight-bold">CCD</span>
+                           <span class="inline navbar-user-name text-info font-weight-bold">{{ user.username }}</span>
                         </div>
-                        <p class="text-muted mb-0 font-13">dcunha.cyprien@gmail.com</p>
+                        <p class="text-muted mb-0 font-13">{{ user.email }}</p>
                      </div>
                      <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
                      <span class="btn-label"><i class="icon-user-follow"></i>
@@ -68,22 +68,22 @@
                </li>
                <li class="text-muted menu-title">Navigation</li>
                <li class="has_sub">
-               <a href="#" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+               <a class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
                </li>
                <li class="has_sub">
-               <a href="#" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+               <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
                </li>
                <li class="has_sub">
-               <a href="#" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+               <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
                </li>
                <li class="has_sub">
-               <a href="#" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+               <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
                </li>
                <li class="has_sub">
-               <a href="#" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+               <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
                </li>
                <li class="has_sub">
-               <a href="#" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+               <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
                </li>
             </ul>
             <div class="clearfix"></div>
@@ -99,8 +99,8 @@
                         <div class="page-title-box">
                            <h4 class="page-title float-left">Dashboard</h4>
                            <ol class="breadcrumb float-right">
-                              <li class="breadcrumb-item"><a href="index.html#">VC-Chain</a></li>
-                              <li class="breadcrumb-item"><a href="index.html#">CCD</a></li>
+                              <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
+                              <li class="breadcrumb-item"><a>CCD</a></li>
                               <li class="breadcrumb-item active">Dashboard</li>
                            </ol>
                            <div class="clearfix"></div>
@@ -112,28 +112,28 @@
                         <div class="card-box tilebox-one">
                            <i class="icon-layers float-right text-muted"></i>
                            <h6 class="text-muted text-uppercase m-b-20">Projects</h6>
-                           <h2 class="m-b-20" data-plugin="counterup">6</h2>
+                           <h2 class="m-b-20" data-plugin="counterup">{{ user.projects }}</h2>
                         </div>
                      </div>
                      <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
                         <div class="card-box tilebox-one">
                            <i class="icon-star float-right text-muted"></i>
                            <h6 class="text-muted text-uppercase m-b-20">Stars</h6>
-                           <h2 class="m-b-20" data-plugin="counterup">10</h2>
+                           <h2 class="m-b-20" data-plugin="counterup">{{ user.stars }}</h2>
                         </div>
                      </div>
                      <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
                         <div class="card-box tilebox-one">
                            <i class="fa fa-code-fork float-right text-muted"></i>
                            <h6 class="text-muted text-uppercase m-b-20">Forks</h6>
-                           <h2 class="m-b-20" data-plugin="counterup">3</h2>
+                           <h2 class="m-b-20" data-plugin="counterup">{{ user.forks }}</h2>
                         </div>
                      </div>
                      <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
                         <div class="card-box tilebox-one">
                            <i class="icon-user-following float-right text-muted"></i>
                            <h6 class="text-muted text-uppercase m-b-20">Followers</h6>
-                           <h2 class="m-b-20" data-plugin="counterup">1</h2>
+                           <h2 class="m-b-20" data-plugin="counterup">{{ user.followers }}</h2>
                         </div>
                      </div>
                   </div>
@@ -157,42 +157,22 @@
                            <div class="tab-pane fade active show" id="home-2">
                               <div class="nicescroll" style="height: 353px; padding-left: 4px;">
                                  <div class="timeline-2">
-                                    <div class="time-item">
-                                       <div class="item-info">
-                                          <small class="text-muted">5 minutes ago</small>
-                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> pushed a commit to <strong class="text-success">xyz</strong> project on <span class="text-success">stagging</span> branch</p>
-                                       </div>
-                                    </div>
-                                    <div class="time-item">
-                                       <div class="item-info">
-                                          <small class="text-muted">10 hours ago</small>
-                                          <p><strong><a href="index.html#" class="text-info">imtoobose</a></strong> starred <strong class="text-success">CCD/mnop</strong> project</p>
-                                       </div>
-                                    </div>
-                                    <div class="time-item">
-                                       <div class="item-info">
-                                          <small class="text-muted">1 day ago</small>
-                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> pushed a commit to <strong class="text-success">mnop</strong> project on <span class="text-success">master</span> branch</p>
-                                       </div>
-                                    </div>
-                                    <div class="time-item">
-                                       <div class="item-info">
-                                          <small class="text-muted">2 days ago</small>
-                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> forked project <strong class="text-success">imtoobose/pqrs</strong> to <strong class="text-success">CCD/mnop</strong> branch</p>
-                                       </div>
-                                    </div>
-                                    <div class="time-item">
-                                       <div class="item-info">
-                                          <small class="text-muted">10 day ago</small>
-                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> starred <strong class="text-success">imtoobose/pqrs</strong> project</p>
-                                       </div>
-                                    </div>
-                                    <div class="time-item">
-                                       <div class="item-info">
-                                          <small class="text-muted">11 day ago</small>
-                                          <p><strong><a href="index.html#" class="text-info">CCD</a></strong> is now following <strong class="text-success">imtoobose</strong> project</p>
-                                       </div>
-                                    </div>
+                                    {% for event in timeline %}
+                                      <div class="time-item">
+                                         <div class="item-info">
+                                            <small class="text-muted">{{ event.time }}</small>
+                                            {% if event.type == "commit" %}
+                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> pushed a commit to <strong class="text-success">{{ event.pproject }}</strong> project on <span class="text-success">{{ event.branch }}</span> branch</p>
+                                            {% elif event.type == "star" %}
+                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> starred <strong class="text-success">{{ event.suser }}/{{ event.sproject }}</strong> project</p>
+                                            {% elif event.type == "fork" %}
+                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> forked project <strong class="text-success">{{ event.suser }}/{{ event.sproject }}</strong> to <strong class="text-success">{{ event.puser }}/{{ event.pproject }}</strong> project</p>
+                                            {% elif event.type == "follow" %}
+                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> is now following <strong class="text-success">{{ event.suser }}</strong></p>
+                                            {% endif %}
+                                         </div>
+                                      </div>
+                                    {% endfor %}
                                  </div>
                               </div>
                            </div>
@@ -225,6 +205,9 @@
       <script src="{% static 'plugins/counterup/jquery.counterup.min.js' %}"></script>
       <script src="{% static 'js/jquery.core.js' %}"></script>
       <script src="{% static 'js/jquery.app.js' %}"></script>
+      <script>
+        var $commit_data  = {{ commit_stat|safe }};
+      </script>
       <script src="{% static 'pages/jquery.dashboard.js' %}"></script>
    </body>
 </html>

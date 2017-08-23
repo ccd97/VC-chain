@@ -1,8 +1,14 @@
 from django.shortcuts import render_to_response
+from vc_chain import dummy_data as dummy
 
 
 def dashboardView(request, username):
-    return render_to_response('dashboard.html')
+    data = {
+        "user": dummy.getUserDummyData(),
+        "timeline": dummy.getTimelineDummyData(),
+        "commit_stat": dummy.getCommitStatsDummyData(),
+    }
+    return render_to_response('dashboard.html', data)
 
 
 def addProjectView(request, username):
@@ -33,9 +39,13 @@ def peopleView(request, username):
     return render_to_response('people.html')
 
 
-def projectExplorerView(request, username, projectname, branchname):
+def projectExplorerView(request, username, projectname, branchname=None):
     return render_to_response('project-explore.html')
 
 
 def projectsListView(request, username):
-    return render_to_response('projects.html')
+    data = {
+        "user": dummy.getUserDummyData(),
+        "projects": dummy.getProjectListDummyData(),
+    }
+    return render_to_response('projects.html', data)

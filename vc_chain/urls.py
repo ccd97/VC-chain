@@ -17,16 +17,19 @@ from django.conf.urls import url
 from django.contrib import admin
 from vc_chain import views
 
+app_name = 'vc_chain'
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/(?P<username>\w{0,50})/dashboard$', views.dashboardView),
-    url(r'^user/(?P<username>\w{0,50})/projects/add$', views.addProjectView),
-    url(r'^user/(?P<username>\w{0,50})/projects/(?P<projectname>\w{0,50})/(?P<branchname>\w{0,50})/edit/(?P<filename>[-\w.]+)/$', views.codeEditView),
-    url(r'^user/(?P<username>\w{0,50})/projects/(?P<projectname>\w{0,50})/(?P<branchname>\w{0,50})/view/(?P<filename>[-\w.]+)/$', views.codeView),
-    url(r'^user/(?P<username>\w{0,50})/projects/(?P<projectname>\w{0,50})/(?P<branchname>\w{0,50})/commits/(?P<commitid>\w{0,50})/$', views.commitView),
-    url(r'^user/(?P<username>\w{0,50})/projects/(?P<projectname>\w{0,50})/(?P<branchname>\w{0,50})/commits/$', views.commitsListView),
-    url(r'^user/(?P<username>\w{0,50})/edit/$', views.editProfileView),
-    url(r'^user/(?P<username>\w{0,50})/people/$', views.peopleView), # TODO: stars, forks, followers
-    url(r'^user/(?P<username>\w{0,50})/projects/(?P<projectname>\w{0,50})/(?P<branchname>\w{0,50})/explore/$', views.projectExplorerView),
-    url(r'^user/(?P<username>\w{0,50})/projects/$', views.projectsListView),
+    url(r'^user/(?P<username>[\w_]{3,50})/dashboard$', views.dashboardView, name="dashboard"),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/add$', views.addProjectView, name="add-project"),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/edit/(?P<filename>[-\w_.]{3,50})/$', views.codeEditView),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/view/(?P<filename>[-\w_.]{3,50})/$', views.codeView),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/commits/(?P<commitid>\w{1,50})/$', views.commitView),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/commits/$', views.commitsListView),
+    url(r'^user/(?P<username>[\w_]{3,50})/edit/$', views.editProfileView, name="edit-profile"),
+    url(r'^user/(?P<username>[\w_]{3,50})/people/$', views.peopleView, name="people"), # TODO: stars, forks, followers
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>\w{3,50}|_.)/explore/$', views.projectExplorerView, name="project-explorer"),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/explore/$', views.projectExplorerView, name="project-explorer"),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/$', views.projectsListView, name='projects-list'),
 ]
