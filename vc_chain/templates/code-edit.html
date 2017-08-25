@@ -13,7 +13,7 @@
     <div id="wrapper">
     <div class="topbar">
       <div class="topbar-left">
-        <a href="index.html" class="logo">
+        <a href="javascript:void(0);" class="logo">
         <i class="fa fa-link"></i>
         <span>VC-chain</span>
         </a>
@@ -21,14 +21,14 @@
       <nav class="navbar-custom">
         <ul class="list-inline float-right mb-0">
           <li class="list-inline-item dropdown notification-list">
-            <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="index.html#" role="button" aria-haspopup="false" aria-expanded="false">
-            <img src="{% static 'images/users/ccd-avatar.jpg' %}" alt="user" class="rounded-circle">
+            <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+            <img src="{% static user.img %}" alt="user" class="rounded-circle">
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
               <div class="dropdown-item noti-title">
-                <h5 class="text-overflow"><small>Hi! CCD</small> </h5>
+                <h5 class="text-overflow"><small>Hi! {{ user.username }}</small> </h5>
               </div>
-              <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <a href="{% url 'edit-profile' user.username|lower %}" class="dropdown-item notify-item">
               <i class="zmdi zmdi-settings"></i> <span>Settings</span>
               </a>
               <a href="javascript:void(0);" class="dropdown-item notify-item">
@@ -52,13 +52,13 @@
         <ul>
           <li>
             <div class="navbar-user-container">
-              <img src="{% static 'images/users/ccd-avatar.jpg' %}" alt="user" class="rounded-circle navbar-user-img">
+              <img src="{% static user.img %}" alt="user" class="rounded-circle navbar-user-img">
               <div class="wid-u-info user-info-container">
-                <h5 class="m-t-20 m-b-5 user-info">Cyprien Dcunha</h5>
+                <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
                 <div class="inline">
-                  <span class="inline navbar-user-name text-info font-weight-bold">CCD</span>
+                  <span class="inline navbar-user-name text-info font-weight-bold">{{ user.username }}</span>
                 </div>
-                <p class="text-muted mb-0 font-13">dcunha.cyprien@gmail.com</p>
+                <p class="text-muted mb-0 font-13">{{ user.email }}</p>
               </div>
               <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
               <span class="btn-label"><i class="icon-user-follow"></i>
@@ -67,22 +67,22 @@
           </li>
           <li class="text-muted menu-title">Navigation</li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+          <a href="{% url 'dashboard' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
           </li>
         </ul>
         <div class="clearfix"></div>
@@ -98,12 +98,12 @@
                 <div class="page-title-box">
                   <h4 class="page-title float-left">helloCL</h4>
                   <ol class="breadcrumb float-right">
-                    <li class="breadcrumb-item"><a href="index.html#">VC-Chain</a></li>
-                    <li class="breadcrumb-item"><a href="index.html#">CCD</a></li>
-                    <li class="breadcrumb-item"><a href="index.html#">Projects</a></li>
-                    <li class="breadcrumb-item"><a href="index.html#">helloCL</a></li>
-                    <li class="breadcrumb-item"><a href="index.html#">master</a></li>
-                    <li class="breadcrumb-item active">Image-grayscale.cpp</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username|lower %}">{{ user.username }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'projects-list' user.username|lower %}">Projects</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username|lower file.project %}">{{ file.project }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username|lower file.project file.branch %}">{{ file.branch }}</a></li>
+                    <li class="breadcrumb-item active">{{ file.name }}</li>
                   </ol>
                   <div class="clearfix"></div>
                 </div>
@@ -118,81 +118,14 @@
                 <div class="card m-b-20">
                   <div class="card-header project-card-header">
                     <div class="inline" style="margin-top: 10px;">
-                      <span class="text-info font-weight-bold margin-10 font-15">Image-grayscale.cpp</span><a href="#"><span class="label label-pill label-primary margin-10">Edit</span></a>
+                      <span class="text-info font-weight-bold margin-10 font-15">{{ file.name }}</span><a href="javascript:void(0);"><span class="label label-pill label-primary margin-10">Edit</span></a>
                     </div>
                     <div class="button-list pull-right m-t-15">
                       <button type="button" class="btn btn-outline-primary waves-effect waves-light">
                       <i class="zmdi zmdi-save"></i></button>
                     </div>
                   </div>
-                  <div id="editor">#include "image-grayscale.h"
-
-extern "C"{
-#include "utils/cl_utils.h"
-#include "utils/file_utils.h"
-}
-
-void image_grayscale(char *input_image_path, char *output_image_path){
-    //check if input image paths is valid
-    check_if_proper_image_path(&input_image_path);
-
-    //Image variables
-    size_t rows, cols, ARRAY_SIZE, ARRAY_BYTES, NO_OF_CHANNELS;
-
-    //Output data array
-    unsigned char *h_output_data;
-
-    //Memory pointer for image
-    cl_mem d_input, d_output;
-
-    //Get and convert image to matrix with proper color channels
-    cv::Mat img_mat = cv::imread(input_image_path);
-    cv::cvtColor(img_mat, img_mat, CV_RGB2RGBA);
-
-    rows = (size_t) img_mat.rows;
-    cols = (size_t) img_mat.cols;
-
-    NO_OF_CHANNELS = 4;
-    ARRAY_SIZE = rows * cols;
-    ARRAY_BYTES = ARRAY_SIZE * sizeof(unsigned char);
-
-    //Copy kernel from file
-    const char* grayscale = read_kernel_from_file((char *) "image-grayscale/grayscale.cl");
-
-    //Setup opencl and allocate memory
-    cl_setup();
-    cl_malloc(d_input, ARRAY_BYTES * NO_OF_CHANNELS);
-    cl_malloc(d_output, ARRAY_BYTES);
-
-    //Copy input image data and filter to opencl-device
-    cl_memcpy(d_input, img_mat.data, ARRAY_BYTES * NO_OF_CHANNELS, host_to_device);
-
-    //Setup global and local work size
-    //TODO: set proper global and local work size
-    size_t global_work_size[] = { rows, cols };
-    size_t local_work_size[] = { 8,cols };
-
-    //Execute kernel
-    cl_run((char *) "grayscale", grayscale, 2, global_work_size, NULL, 2,
-           sizeof(cl_mem), d_input, sizeof(cl_mem), d_output);
-
-    //Copy resultant image back to host
-    h_output_data = new unsigned char[ARRAY_BYTES];
-    cl_memcpy(d_output, h_output_data, ARRAY_BYTES, device_to_host);
-
-    //Save the image
-    cv::Mat output((int) rows, (int) cols, CV_8UC1, h_output_data);
-    cv::imwrite(output_image_path, output);
-
-    //Clear all allocated memory
-    cl_free(d_input);
-    cl_free(d_output);
-
-    delete grayscale;
-    delete h_output_data;
-
-}
-                  </div>
+                  <div id="editor">{{ file.code }}</div>
                 </div>
               </div>
             </div>

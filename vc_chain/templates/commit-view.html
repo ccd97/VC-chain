@@ -14,7 +14,7 @@
     <div id="wrapper">
     <div class="topbar">
       <div class="topbar-left">
-        <a href="index.html" class="logo">
+        <a href="javascript:void(0);" class="logo">
         <i class="fa fa-link"></i>
         <span>VC-chain</span>
         </a>
@@ -22,14 +22,14 @@
       <nav class="navbar-custom">
         <ul class="list-inline float-right mb-0">
           <li class="list-inline-item dropdown notification-list">
-            <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="index.html#" role="button" aria-haspopup="false" aria-expanded="false">
-            <img src="{% static 'images/users/ccd-avatar.jpg' %}" alt="user" class="rounded-circle">
+            <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="false" aria-expanded="false">
+            <img src="{% static user.img %}" alt="user" class="rounded-circle">
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
               <div class="dropdown-item noti-title">
-                <h5 class="text-overflow"><small>Hi! CCD</small> </h5>
+                <h5 class="text-overflow"><small>Hi! {{ user.username }}</small> </h5>
               </div>
-              <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <a href="{% url 'edit-profile' user.username|lower %}" class="dropdown-item notify-item">
               <i class="zmdi zmdi-settings"></i> <span>Settings</span>
               </a>
               <a href="javascript:void(0);" class="dropdown-item notify-item">
@@ -53,13 +53,13 @@
         <ul>
           <li>
             <div class="navbar-user-container">
-              <img src="{% static 'images/users/ccd-avatar.jpg' %}" alt="user" class="rounded-circle navbar-user-img">
+              <img src="{% static user.img %}" alt="user" class="rounded-circle navbar-user-img">
               <div class="wid-u-info user-info-container">
-                <h5 class="m-t-20 m-b-5 user-info">Cyprien Dcunha</h5>
+                <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
                 <div class="inline">
-                  <span class="inline navbar-user-name text-info font-weight-bold">CCD</span>
+                  <span class="inline navbar-user-name text-info font-weight-bold">{{ user.username }}</span>
                 </div>
-                <p class="text-muted mb-0 font-13">dcunha.cyprien@gmail.com</p>
+                <p class="text-muted mb-0 font-13">{{ user.email }}</p>
               </div>
               <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
               <span class="btn-label"><i class="icon-user-follow"></i>
@@ -68,22 +68,22 @@
           </li>
           <li class="text-muted menu-title">Navigation</li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+          <a href="{% url 'dashboard' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
           </li>
           <li class="has_sub">
-          <a href="#" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
           </li>
         </ul>
         <div class="clearfix"></div>
@@ -99,11 +99,12 @@
                 <div class="page-title-box">
                   <h4 class="page-title float-left">helloCL</h4>
                   <ol class="breadcrumb float-right">
-                    <li class="breadcrumb-item"><a href="index.html#">VC-Chain</a></li>
-                    <li class="breadcrumb-item"><a href="index.html#">CCD</a></li>
-                    <li class="breadcrumb-item"><a href="index.html#">Projects</a></li>
-                    <li class="breadcrumb-item"><a href="index.htm">helloCL</a></li>
-                    <li class="breadcrumb-item active">master</li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username|lower %}">{{ user.username }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'projects-list' user.username|lower %}">Projects</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username|lower commit_diff.project %}">{{ commit_diff.project }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username|lower commit_diff.project commit_diff.branch %}">{{ commit_diff.branch }}</a></li>
+                    <li class="breadcrumb-item active">{{ commit_diff.commit_id }}</li>
                   </ol>
                   <div class="clearfix"></div>
                 </div>
@@ -120,10 +121,10 @@
                     <div class="row">
                       <div class="col-sm-10">
                         <div class="inline-box">
-                          <img src="{% static 'images/users/ccd-avatar.jpg' %}" alt="user" class="rounded-circle" style="width: 50px">
+                          <img src="{% static commit_diff.author_img %}" alt="user" class="rounded-circle" style="width: 50px">
                           <div class="margin-20">
-                            <div class="text-primary font-weight-bold font-16">fix bugs</div>
-                            <div class="commit-time-info font-14"><a href="#" class="text-success font-weight-bold">CCD-1997</a> committed on Mar 19</div>
+                            <div class="text-primary font-weight-bold font-16">{{ commit_diff.message }}</div>
+                            <div class="commit-time-info font-14"><a href="#" class="text-success font-weight-bold">{{ commit_diff.author }}</a> committed on {{ commit_diff.date }}</div>
                           </div>
                         </div>
                       </div>
@@ -169,133 +170,7 @@
     <script src="{% static 'js/jquery.app.js' %}"></script>
 
     <script>
-    diffdata = Diff2Html.getPrettyHtml(
-`commit 6a854bf12bd3a71dff09847d529dd556b0222aed
-Author: CCD-1997 <dcunha.cyprien@gmail.com>
-Date:   Sun Mar 19 18:04:49 2017 +0530
-
-    fix bugs
-
-diff --git a/app/src/main/java/api/feedback/FeedBackForm.java b/app/src/main/java/api/feedback/FeedBackForm.java
-index 869b689..f5dc209 100644
---- a/app/src/main/java/api/feedback/FeedBackForm.java
-+++ b/app/src/main/java/api/feedback/FeedBackForm.java
-@@ -1,11 +1,11 @@
- package api.feedback;
-
-+import android.content.Context;
- import android.content.DialogInterface;
- import android.content.Intent;
- import android.content.SharedPreferences;
- import android.os.AsyncTask;
- import android.os.Bundle;
--import android.preference.PreferenceManager;
- import android.support.design.widget.FloatingActionButton;
- import android.support.v7.app.AlertDialog;
- import android.support.v7.app.AppCompatActivity;
-@@ -29,6 +29,8 @@ import java.net.HttpURLConnection;
- import java.net.URL;
- import java.util.ArrayList;
-
-+import static api.feedback.LoginActivity.SP_LOGIN_ID;
-+
- public class FeedBackForm extends AppCompatActivity {
-
-     public static final int FORM_TYPE_THEORY = 1;
-@@ -142,10 +144,10 @@ public class FeedBackForm extends AppCompatActivity {
-             e.printStackTrace();
-         }
-
--        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-+        SharedPreferences prefs = getSharedPreferences(SP_LOGIN_ID, Context.MODE_PRIVATE);
-         uploadToServer("http://10.120.110.161:8000/save-feedback/", String.valueOf(json));
--        preferences.edit().putBoolean(subject + teacherName, true).apply();
--
-+        prefs.edit().putBoolean(subject + teacherName, true).apply();
-+        finish();
-     }
-
-     public boolean onCreateOptionsMenu(Menu menu) {
-diff --git a/app/src/main/java/api/feedback/MainActivity.java b/app/src/main/java/api/feedback/MainActivity.java
-index 9f34cf8..1a57ccd 100644
---- a/app/src/main/java/api/feedback/MainActivity.java
-+++ b/app/src/main/java/api/feedback/MainActivity.java
-@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
- import android.graphics.Rect;
- import android.os.AsyncTask;
- import android.os.Bundle;
--import android.preference.PreferenceManager;
- import android.support.v7.app.AppCompatActivity;
- import android.support.v7.widget.LinearLayoutManager;
- import android.support.v7.widget.RecyclerView;
-@@ -54,11 +53,10 @@ public class MainActivity extends AppCompatActivity {
-             }
-         }.execute();
-
--        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
--
-+        SharedPreferences prefs = getSharedPreferences(SP_LOGIN_ID, Context.MODE_PRIVATE);
-         RecyclerView rv = (RecyclerView) findViewById(R.id.subject_rv);
-         rv.setLayoutManager(new LinearLayoutManager(this));
--        String div = pref.getString(LoginActivity.SP_LOGIN_CLASS, "");
-+        String div = prefs.getString(LoginActivity.SP_LOGIN_CLASS, "");
-         rv.addItemDecoration(new SpacingDecoration(4));
-         rv.setAdapter(new SubjectAdapter(this, getData(div)));
-     }
-@@ -66,31 +64,32 @@ public class MainActivity extends AppCompatActivity {
-     private ArrayList<Subject> getData(String div){
-         ArrayList<Subject> subjects = new ArrayList<>();
-         if(Objects.equals(div, "SE-A")){
--            subjects.add(new Subject("Ruhina", "DBMS", "SE-A", false));
--            subjects.add(new Subject("Chirag", "CG", "SE-A", false));
--            subjects.add(new Subject("Chirage", "CG", "SE-A", true));
--            subjects.add(new Subject("Priya", "COA", "SE-A", false));
--            subjects.add(new Subject("Harish", "DBMS", "SE-A", true));
--            subjects.add(new Subject("Sonali", "Maths", "SE-A", true));
--            subjects.add(new Subject("Pranjali", "AOA", "SE-A", false));
-+            subjects.add(new Subject("Saumitra Bose", "DBMS", "SE-A", false));
-+            subjects.add(new Subject("Cyprien Dcunha", "CG", "SE-A", false));
-+            subjects.add(new Subject("Cyprien Dcunha", "CG", "SE-A", true));
-+            subjects.add(new Subject("Jitendra Kumhar", "COA", "SE-A", false));
-+            subjects.add(new Subject("Saumitra Bose", "DBMS", "SE-A", true));
-+            subjects.add(new Subject("Ketav Bhatt", "Maths", "SE-A", true));
-+            subjects.add(new Subject("Jitendra Kumhar", "AOA", "SE-A", false));
-         }
--        else if(Objects.equals(div, "SE-A")){
--            subjects.add(new Subject("ABCD", "DBMS", "SE-B", false));
-+        else if(Objects.equals(div, "SE-B")){
-+            subjects.add(new Subject("Saumitra Bose", "DBMS", "SE-B", false));
-             subjects.add(new Subject("Chirag", "CG", "SE-B", false));
--            subjects.add(new Subject("Chirage", "CG", "SE-B", true));
--            subjects.add(new Subject("Priya", "COA", "SE-B", false));
--            subjects.add(new Subject("Priya", "DBMS", "SE-B", true));
--            subjects.add(new Subject("XYZ", "Maths", "SE-B", true));
--            subjects.add(new Subject("Pranjali", "AOA", "SE-B", false));
-+            subjects.add(new Subject("Miloni", "CG", "SE-B", true));
-+            subjects.add(new Subject("Maitri", "COA", "SE-B", false));
-+            subjects.add(new Subject("Saumitra", "DBMS", "SE-B", true));
-+            subjects.add(new Subject("Ramesh", "Maths", "SE-B", true));
-+            subjects.add(new Subject("Cyprien Dcunha", "AOA", "SE-B", false));
-         }
-         else {
--            subjects.add(new Subject("ABCD", "DBMS", "SE-A", false));
--            subjects.add(new Subject("JHDSH", "COA", "SE-A", false));
--            subjects.add(new Subject("SDKNH", "CG", "SE-A", true));
--            subjects.add(new Subject("DSKJS", "CG", "SE-A", false));
--            subjects.add(new Subject("DSKNS", "DBMS", "SE-A", true));
--            subjects.add(new Subject("XYZ", "Maths", "SE-A", true));
--            subjects.add(new Subject("SDFSD", "Maths", "SE-A", false));
-+
-+            subjects.add(new Subject("Saumitra Bose", "DBMS", "SE-A", false));
-+            subjects.add(new Subject("Jitendra Kumhar", "COA", "SE-A", false));
-+            subjects.add(new Subject("Ankit", "CG", "SE-A", true));
-+            subjects.add(new Subject("Jigar", "CG", "SE-A", false));
-+            subjects.add(new Subject("Saumitra Bose", "DBMS", "SE-A", true));
-+            subjects.add(new Subject("Anand", "Maths", "SE-A", true));
-+            subjects.add(new Subject("Zahan", "Maths", "SE-A", false));
-         }
-         return subjects;
-   }`,{
+    diffdata = Diff2Html.getPrettyHtml(`{{ commit_diff.diff }}`,{
         inputFormat: 'diff',
         outputFormat: 'side-by-side',
         showFiles: false
