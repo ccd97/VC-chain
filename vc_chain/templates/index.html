@@ -1,0 +1,133 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+      <title>VC-chain</title>
+      <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+      <link href="{% static 'css/bootstrap_3.3.min.css' %}" rel="stylesheet" type="text/css" />
+      <link href="{% static 'css/home_style.css' %}" rel="stylesheet" type="text/css" />
+      <link href="{% static 'css/default_colors.css' %}" rel="stylesheet" type="text/css">
+   </head>
+   <body data-spy="scroll" data-target="#navbar-menu">
+      <div class="navbar navbar-custom navbar-fixed-top sticky" role="navigation" id="sticky-nav">
+         <div class="container">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand logo">
+               <i class="fa fa-link"></i> VC-Chain
+               </a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-menu">
+               <ul class="nav navbar-nav navbar-right">
+                 <li>
+                   <a id="login-a">Login</a>
+                 </li>
+                  <li>
+                    <button type="button" class="btn btn-white-fill navbar-btn-alt" id="login-button">Login</button>
+                  </li>
+                  <li>
+                    <a id="signup-a">Sign Up</a>
+                  </li>
+                  <li>
+                    <button type="button" class="btn btn-white-fill navbar-btn-alt" id="signup-button">Sign Up</button>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <section class="bg-custom home" id="home">
+         <div class="home-sm">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-6 col-sm-7">
+                     <div class="home-wrapper home-wrapper-alt p-0">
+                        <i class="fa fa-link main-large-icon"></i>
+                        <h1 class="h1 font-light text-white w-full">VC-Chain is a blockchain based version control system</h1>
+                        <h4 class="text-light w-full">VC-Chain is a fully version control sytem that use blockchain to store and share data. The P2P nature of blockchain allows VC-chain to be true distributed version control system.</h4>
+                     </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2 col-sm-5" id="regester-form-div">
+                     <form role="form" class="intro-form">
+                        <h3 class="text-center"> Register </h3>
+                        <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Full name" required="required">
+                        </div>
+                        <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Email Address" required="required">
+                        </div>
+                        <div class="form-group">
+                           <input type="text" class="form-control" placeholder="User name" required="required">
+                        </div>
+                        <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Password" required="required">
+                        </div>
+                        <div class="form-group text-center">
+                           <button type="submit" class="btn btn-custom btn-sm btn-block">Start Now</button>
+                        </div>
+                        <span class="help-block m-b-0 m-t-20 text-muted"><small>By registering you agree to the VC-Chain <a>Terms of Use</a></small></span>
+                     </form>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2 col-sm-5" id="login-form-div" style="margin-top:80px;">
+                     <form role="form" class="intro-form">
+                        <h3 class="text-center"> Login </h3>
+                        <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Email Address" required="required">
+                        </div>
+                        <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Password" required="required">
+                        </div>
+                        <div class="form-group text-center">
+                           <button type="submit" class="btn btn-custom btn-sm btn-block">Sign In</button>
+                        </div>
+                        <span class="help-block m-b-0 m-t-20 text-muted"><small> <a>Forgot Password?</a></small></span>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <footer class="section bg-gray footer">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-4 col-sm-6">
+                  <h5>VC-Chain</h5>
+                  <ul class="list-unstyled">
+                     <li><a>Home</a></li>
+                  </ul>
+               </div>
+               <div class="col-md-4 col-sm-6">
+                  <h5>Support</h5>
+               </div>
+               <div class="col-md-4 col-sm-6">
+                  <h5>Contact</h5>
+                  <address>
+                     Plot No.U-15, J.V.P.D. Scheme<br>
+                     Vile Parle West, Mumbai, 400056<br>
+                     P:  (+91)8552955189<br/>
+                     E: <a href="mailto:#">dcunha.cyprien@gmail.com</a>
+                  </address>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-12">
+                  <div class="footer-alt text-center">
+                     <p class="text-muted m-b-0">2017 &copy; VC-Chain. All rights reserved.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <script src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap3.3.min.js' %}"></script>
+      <script src="{% static 'pages/jquery.home.js' %}"></script>
+   </body>
+</html>

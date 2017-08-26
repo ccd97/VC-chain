@@ -2,6 +2,10 @@ from django.shortcuts import render_to_response
 from vc_chain import dummy_data as dummy
 
 
+def indexView(request):
+    return render_to_response('index.html')
+
+
 def dashboardView(request, username):
     data = {
         "user": dummy.getUserDummyData(),
