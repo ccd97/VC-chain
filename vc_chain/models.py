@@ -66,4 +66,4 @@ class File(models.Model):
     code = models.TextField()
 
     def __str__(self):
-        return str(self.project) + "-" + self.name
+        return str(self.commit) + "-" + self.name

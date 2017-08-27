@@ -63,10 +63,10 @@
           <a href="{% url 'forks-list' user.username %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'people' user.username %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+          <a href="{% url 'followers-list' user.username %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Followers </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'people' user.username %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+          <a href="{% url 'following-list' user.username %}" class="waves-effect"><i class="icon-user-following"></i> <span> Following </span> </a>
           </li>
         </ul>
         <div class="clearfix"></div>
@@ -127,7 +127,7 @@
     <script>
       var editor = ace.edit("editor");
       //editor.setTheme("ace/theme/monokai");
-      editor.getSession().setMode("ace/mode/c_cpp");
+      editor.getSession().setMode("ace/mode/{{ file.ace_type }}");
     </script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/tether.min.js' %}"></script>

@@ -1863,6 +1863,7 @@ label {
 }
 
 #editor {
+  font-size: 14px;
   height: 75vh;
   top: 0;
   right: 0;

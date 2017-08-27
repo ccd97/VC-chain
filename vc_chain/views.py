@@ -4,7 +4,6 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
-from vc_chain import dummy_data as dummy
 from vc_chain import data_handler
 from vc_chain import models
 
@@ -59,8 +58,8 @@ def dashboardRedirect(request):
 def dashboardView(request, username):
     data = {
         "user": data_handler.getUserData(username),
-        "timeline": dummy.getTimelineDummyData(),
-        "commit_stat": dummy.getCommitStatsDummyData(),
+        "timeline": data_handler.getTimelineData(username),
+        "commit_stat": data_handler.getCommitStatsData(username),
     }
     return render(request, 'dashboard.html', data)
 
@@ -77,7 +76,7 @@ def addProjectView(request, username):
 def codeEditView(request, username, projectname, branchname, filename):
     data = {
         "user": data_handler.getUserData(username),
-        "file": dummy.getFileCodeDummyData(),
+        "file": data_handler.getFileCodeData(username, projectname, branchname, filename),
     }
     return render(request, 'code-edit.html', data)
 
@@ -85,7 +84,7 @@ def codeEditView(request, username, projectname, branchname, filename):
 def codeView(request, username, projectname, branchname, filename):
     data = {
         "user": data_handler.getUserData(username),
-        "file": dummy.getFileCodeDummyData(),
+        "file": data_handler.getFileCodeData(username, projectname, branchname, filename),
     }
     return render(request, 'code-view.html', data)
 
@@ -93,7 +92,7 @@ def codeView(request, username, projectname, branchname, filename):
 def commitView(request, username, projectname, branchname, commitid):
     data = {
         "user": data_handler.getUserData(username),
-        "commit_diff": dummy.getCommitDiffDummyData(),
+        "commit_diff": data_handler.getCommitDiffData(username, projectname, branchname, commitid),
     }
     return render(request, 'commit-view.html', data)
 
@@ -101,7 +100,7 @@ def commitView(request, username, projectname, branchname, commitid):
 def commitsListView(request, username, projectname, branchname):
     data = {
         "user": data_handler.getUserData(username),
-        "commits": dummy.getCommitListDummyData(),
+        "commits": data_handler.getCommitListData(username, projectname, branchname),
     }
     return render(request, 'commits.html', data)
 
@@ -114,10 +113,18 @@ def editProfileView(request, username):
     return render(request, 'edit-profile.html', data)
 
 
-def peopleView(request, username):
+def followersView(request, username):
     data = {
         "user": data_handler.getUserData(username),
-        "people": dummy.getPeopleDummyData(),
+        "people": data_handler.getFollowerData(username),
+    }
+    return render(request, 'people.html', data)
+
+
+def followingsView(request, username):
+    data = {
+        "user": data_handler.getUserData(username),
+        "people": data_handler.getFollowingData(username),
     }
     return render(request, 'people.html', data)
 
@@ -125,7 +132,7 @@ def peopleView(request, username):
 def projectExplorerView(request, username, projectname, branchname=None):
     data = {
         "user": data_handler.getUserData(username),
-        "project": dummy.getProjectExplorerDummyData(),
+        "project": data_handler.getProjectExplorerData(username, projectname, branchname),
     }
     return render(request, 'project-explore.html', data)
 

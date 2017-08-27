@@ -34,11 +34,13 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/commits/(?P<commitid>\w{1,50})/$', views.commitView, name="commit-diff"),
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/commits/$', views.commitsListView, name="commits-view"),
     url(r'^user/(?P<username>[\w_]{3,50})/edit/$', views.editProfileView, name="edit-profile"),
-    url(r'^user/(?P<username>[\w_]{3,50})/people/$', views.peopleView, name="people"), # TODO: stars, forks, followers
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>\w{3,50}|_.)/explore/$', views.projectExplorerView, name="project-explorer"),
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/explore/$', views.projectExplorerView, name="project-explorer"),
 
     url(r'^user/(?P<username>[\w_]{3,50})/projects/$', views.projectsListView, name='projects-list'),
     url(r'^user/(?P<username>[\w_]{3,50})/stars/$', views.starProjectsListView, name='stars-list'),
     url(r'^user/(?P<username>[\w_]{3,50})/forks/$', views.forkProjectsListView, name='forks-list'),
+
+    url(r'^user/(?P<username>[\w_]{3,50})/followers/$', views.followersView, name="followers-list"),
+    url(r'^user/(?P<username>[\w_]{3,50})/following/$', views.followingsView, name="following-list"),
 ]
