@@ -51,22 +51,22 @@
           </li>
           <li class="text-muted menu-title">Navigation</li>
           <li class="has_sub">
-          <a href="{% url 'dashboard' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+          <a href="{% url 'dashboard' user.username %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+          <a href="{% url 'projects-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+          <a href="{% url 'stars-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+          <a href="{% url 'forks-list' user.username %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+          <a href="{% url 'people' user.username %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+          <a href="{% url 'people' user.username %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
           </li>
         </ul>
         <div class="clearfix"></div>
@@ -83,10 +83,10 @@
                   <h4 class="page-title float-left">{{ file.project }}</h4>
                   <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username|lower %}">{{ user.username }}</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'projects-list' user.username|lower %}">Projects</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username|lower file.project %}">{{ file.project }}</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username|lower file.project file.branch %}">{{ file.branch }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username %}">{{ user.username }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'projects-list' user.username %}">Projects</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username file.project %}">{{ file.project }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username file.project file.branch %}">{{ file.branch }}</a></li>
                     <li class="breadcrumb-item active">{{ file.name }}</li>
                   </ol>
                   <div class="clearfix"></div>
@@ -106,7 +106,7 @@
                     </div>
                     {% if request.user.is_authenticated %}
                       <div class="button-list pull-right m-t-15">
-                        <button type="button" class="btn btn-outline-primary waves-effect waves-light" onclick='location.href="{% url 'code-edit' user.username|lower file.project file.branch file.name %}";'>
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light" onclick='location.href="{% url 'code-edit' user.username file.project file.branch file.name %}";'>
                         <i class="zmdi zmdi-edit"></i></button>
                         <button type="button" class="btn btn-outline-primary waves-effect waves-light">
                         <i class="zmdi zmdi-delete"></i></button>

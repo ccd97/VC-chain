@@ -50,16 +50,16 @@
           </li>
           <li class="text-muted menu-title">Navigation</li>
           <li class="has_sub">
-          <a href="{% url 'dashboard' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+          <a href="{% url 'dashboard' user.username %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+          <a href="{% url 'projects-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+          <a href="{% url 'stars-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+          <a href="{% url 'forks-list' user.username %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
           </li>
           <li class="has_sub">
           <a href="javascript:void(0);" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
@@ -82,7 +82,7 @@
                   <h4 class="page-title float-left">People</h4>
                   <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username|lower %}">{{ user.username }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username %}">{{ user.username }}</a></li>
                     <li class="breadcrumb-item active">People</li>
                   </ol>
                   <div class="clearfix"></div>
@@ -92,7 +92,7 @@
             <div class="row">
               {% for person in people %}
                 <div class="col-xs-12 col-md-12 col-lg-12 col-xl-4">
-                  <a href="{% url 'dashboard' person.username|lower %}">
+                  <a href="{% url 'dashboard' person.username %}">
                     <div class="card-box widget-user">
                       <img src="{% static person.img %}" class="img-responsive rounded-circle" alt="user">
                       <div class="wid-u-info margin-20 user-info-container">

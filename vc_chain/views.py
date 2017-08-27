@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 from vc_chain import dummy_data as dummy
+from vc_chain import data_handler
+from vc_chain import models
 
 
 def indexView(request):
@@ -37,6 +39,7 @@ def signup(request):
     User.objects.create_user(username=username, email=email, password=password, first_name=fname).save()
     auth_user = authenticate(request, username=username, password=password)
     if auth_user is not None:
+        models.User(username=username, name=fname, email=email).save()
         login(request, auth_user)
         return dashboardRedirect(request)
     else:
@@ -55,7 +58,7 @@ def dashboardRedirect(request):
 
 def dashboardView(request, username):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
         "timeline": dummy.getTimelineDummyData(),
         "commit_stat": dummy.getCommitStatsDummyData(),
     }
@@ -65,7 +68,7 @@ def dashboardView(request, username):
 @login_required
 def addProjectView(request, username):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
     }
     return render(request, 'add-project.html', data)
 
@@ -73,7 +76,7 @@ def addProjectView(request, username):
 @login_required
 def codeEditView(request, username, projectname, branchname, filename):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
         "file": dummy.getFileCodeDummyData(),
     }
     return render(request, 'code-edit.html', data)
@@ -81,7 +84,7 @@ def codeEditView(request, username, projectname, branchname, filename):
 
 def codeView(request, username, projectname, branchname, filename):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
         "file": dummy.getFileCodeDummyData(),
     }
     return render(request, 'code-view.html', data)
@@ -89,7 +92,7 @@ def codeView(request, username, projectname, branchname, filename):
 
 def commitView(request, username, projectname, branchname, commitid):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
         "commit_diff": dummy.getCommitDiffDummyData(),
     }
     return render(request, 'commit-view.html', data)
@@ -97,7 +100,7 @@ def commitView(request, username, projectname, branchname, commitid):
 
 def commitsListView(request, username, projectname, branchname):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
         "commits": dummy.getCommitListDummyData(),
     }
     return render(request, 'commits.html', data)
@@ -106,14 +109,14 @@ def commitsListView(request, username, projectname, branchname):
 @login_required
 def editProfileView(request, username):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
     }
     return render(request, 'edit-profile.html', data)
 
 
 def peopleView(request, username):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
         "people": dummy.getPeopleDummyData(),
     }
     return render(request, 'people.html', data)
@@ -121,7 +124,7 @@ def peopleView(request, username):
 
 def projectExplorerView(request, username, projectname, branchname=None):
     data = {
-        "user": dummy.getUserDummyData(),
+        "user": data_handler.getUserData(username),
         "project": dummy.getProjectExplorerDummyData(),
     }
     return render(request, 'project-explore.html', data)
@@ -129,7 +132,26 @@ def projectExplorerView(request, username, projectname, branchname=None):
 
 def projectsListView(request, username):
     data = {
-        "user": dummy.getUserDummyData(),
-        "projects": dummy.getProjectListDummyData(),
+        "type": "Projects",
+        "user": data_handler.getUserData(username),
+        "projects": data_handler.getProjectListData(username),
+    }
+    return render(request, 'projects.html', data)
+
+
+def starProjectsListView(request, username):
+    data = {
+        "type": "Stars",
+        "user": data_handler.getUserData(username),
+        "projects": data_handler.getStarProjectListData(username),
+    }
+    return render(request, 'projects.html', data)
+
+
+def forkProjectsListView(request, username):
+    data = {
+        "type": "Forks",
+        "user": data_handler.getUserData(username),
+        "projects": data_handler.getProjectListData(username, just_fork=True),
     }
     return render(request, 'projects.html', data)

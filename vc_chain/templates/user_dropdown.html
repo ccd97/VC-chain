@@ -9,7 +9,7 @@
            <div class="dropdown-item noti-title">
               <h5 class="text-overflow"><small>Hi! {{ request.user.username }}</small> </h5>
            </div>
-           <a href="{% url 'edit-profile' request.user.username|lower %}" class="dropdown-item notify-item">
+           <a href="{% url 'edit-profile' request.user.username %}" class="dropdown-item notify-item">
            <i class="zmdi zmdi-settings"></i> <span>Settings</span>
            </a>
            <a href="{% url 'signout' %}" class="dropdown-item notify-item">

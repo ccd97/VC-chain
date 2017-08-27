@@ -50,22 +50,22 @@
           </li>
           <li class="text-muted menu-title">Navigation</li>
           <li class="has_sub">
-          <a href="{% url 'dashboard' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+          <a href="{% url 'dashboard' user.username %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
+          <a href="{% url 'projects-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
+          <a href="{% url 'stars-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'projects-list' user.username|lower %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
+          <a href="{% url 'forks-list' user.username %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
+          <a href="{% url 'people' user.username %}" class="waves-effect"><i class="icon-user-following"></i> <span> Followers </span> </a>
           </li>
           <li class="has_sub">
-          <a href="{% url 'people' user.username|lower %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
+          <a href="{% url 'people' user.username %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Following </span> </a>
           </li>
         </ul>
         <div class="clearfix"></div>
@@ -82,9 +82,9 @@
                   <h4 class="page-title float-left">{{ project.name }}</h4>
                   <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username|lower %}">{{ user.username }}</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'projects-list' user.username|lower %}">Projects</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username|lower project.name %}">{{ project.name }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username %}">{{ user.username }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'projects-list' user.username %}">Projects</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username project.name %}">{{ project.name }}</a></li>
                     <li class="breadcrumb-item active">{{ project.branch }}</li>
                   </ol>
                   <div class="clearfix"></div>
@@ -99,7 +99,7 @@
                       <button type="button" class="btn btn-primary dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><img class="margin-r-10" src="{% static 'images/icons/git-branch.svg' %}">master<span class="caret"></span></button>
                       <div class="dropdown-menu">
                         {% for branch in project.branches %}
-                          <a class="dropdown-item" href="{% url 'project-explorer' user.username|lower project.name branch %}">{{ branch }}</a>
+                          <a class="dropdown-item" href="{% url 'project-explorer' user.username project.name branch %}">{{ branch }}</a>
                         {% endfor %}
                         {% if request.user.is_authenticated %}
                           <div class="dropdown-divider"></div>
@@ -114,7 +114,7 @@
                       <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
                       <span class="invisible-button-icon">Fork <i class="fa fa-code-fork"></i>
                       </span>{{ project.forks }}</button>
-                      <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20" onclick='location.href="{% url 'commits-view' user.username|lower project.name project.branch %}"'>
+                      <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20" onclick='location.href="{% url 'commits-view' user.username project.name project.branch %}"'>
                       <span class="invisible-button-icon">Commit <i class="zmdi zmdi-time-restore"></i>
                       </span>{{ project.commits }}</button>
                     </div>
@@ -140,7 +140,7 @@
                     <div class="card-block file-bottom-line">
                       <div class="row">
                         <div class="col-sm-4">
-                          <i class="zmdi zmdi-file zmdi-hc-lg text-primary"></i><a class="margin-20 font-16" href="{% url 'code' user.username|lower project.name project.branch file.name %}">{{ file.name }}</a>
+                          <i class="zmdi zmdi-file zmdi-hc-lg text-primary"></i><a class="margin-20 font-16" href="{% url 'code' user.username project.name project.branch file.name %}">{{ file.name }}</a>
                         </div>
                         <div class="col-sm-6">
                           <a href="javascript:void(0);" class="black-link">{{ file.last_commit }}</a>

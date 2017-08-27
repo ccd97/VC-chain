@@ -37,5 +37,8 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w_]{3,50})/people/$', views.peopleView, name="people"), # TODO: stars, forks, followers
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>\w{3,50}|_.)/explore/$', views.projectExplorerView, name="project-explorer"),
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/explore/$', views.projectExplorerView, name="project-explorer"),
+
     url(r'^user/(?P<username>[\w_]{3,50})/projects/$', views.projectsListView, name='projects-list'),
+    url(r'^user/(?P<username>[\w_]{3,50})/stars/$', views.starProjectsListView, name='stars-list'),
+    url(r'^user/(?P<username>[\w_]{3,50})/forks/$', views.forkProjectsListView, name='forks-list'),
 ]
