@@ -32,7 +32,7 @@
                      <a href="{% url 'edit-profile' user.username|lower %}" class="dropdown-item notify-item">
                      <i class="zmdi zmdi-settings"></i> <span>Settings</span>
                      </a>
-                     <a href="javascript:void(0);" class="dropdown-item notify-item">
+                     <a href="{% url 'signout' %}" class="dropdown-item notify-item">
                      <i class="zmdi zmdi-power"></i> <span>Logout</span>
                      </a>
                   </div>

@@ -22,6 +22,10 @@ app_name = 'vc_chain'
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.indexView),
+    url(r'^signin/$', views.signin, name="signin"),
+    url(r'^signup/$', views.signup, name="signup"),
+    url(r'^signout/$', views.signout, name="signout"),
+    url(r'^dashboard/$', views.dashboardRedirect),
     url(r'^user/(?P<username>[\w_]{3,50})/dashboard$', views.dashboardView, name="dashboard"),
     url(r'^user/(?P<username>[\w_]{3,50})/projects/add$', views.addProjectView, name="add-project"),
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/edit/(?P<filename>[-\w_.]{3,50})/$', views.codeEditView, name="code-edit"),

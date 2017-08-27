@@ -124,3 +124,5 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = '/assets/'
+
+LOGIN_REDIRECT_URL = 'dashboard/'

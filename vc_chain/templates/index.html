@@ -56,19 +56,20 @@
                      </div>
                   </div>
                   <div class="col-md-4 col-md-offset-2 col-sm-5" id="regester-form-div">
-                     <form role="form" class="intro-form">
+                     <form role="form" method="post" action="{% url 'signup' %}" class="intro-form">
+                        {% csrf_token %}
                         <h3 class="text-center"> Register </h3>
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="Full name" required="required">
+                           <input type="text" name="first_name" class="form-control" placeholder="Full name" required="required">
                         </div>
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="Email Address" required="required">
+                           <input type="email" name="email" class="form-control" placeholder="Email Address" required="required">
                         </div>
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="User name" required="required">
+                           <input type="text" name="username" class="form-control" placeholder="User name" required="required">
                         </div>
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="Password" required="required">
+                           <input type="password" name="password" class="form-control" placeholder="Password" required="required">
                         </div>
                         <div class="form-group text-center">
                            <button type="submit" class="btn btn-custom btn-sm btn-block">Start Now</button>
@@ -77,13 +78,14 @@
                      </form>
                   </div>
                   <div class="col-md-4 col-md-offset-2 col-sm-5" id="login-form-div" style="margin-top:80px;">
-                     <form role="form" class="intro-form">
+                     <form role="form" method="post" action="{% url 'signin' %}" class="intro-form">
+                        {% csrf_token %}
                         <h3 class="text-center"> Login </h3>
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="Email Address" required="required">
+                           <input type="text" name="username" class="form-control" placeholder="Username" required="required">
                         </div>
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="Password" required="required">
+                           <input type="password" name="password" class="form-control" placeholder="Password" required="required">
                         </div>
                         <div class="form-group text-center">
                            <button type="submit" class="btn btn-custom btn-sm btn-block">Sign In</button>
