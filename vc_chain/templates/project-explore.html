@@ -19,24 +19,7 @@
         </a>
       </div>
       <nav class="navbar-custom">
-        <ul class="list-inline float-right mb-0">
-          <li class="list-inline-item dropdown notification-list">
-            <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-            <img src="{% static user.img %}" alt="user" class="rounded-circle">
-            </a>
-            <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
-              <div class="dropdown-item noti-title">
-                <h5 class="text-overflow"><small>Hi! {{ user.username }}</small> </h5>
-              </div>
-              <a href="{% url 'edit-profile' user.username|lower %}" class="dropdown-item notify-item">
-              <i class="zmdi zmdi-settings"></i> <span>Settings</span>
-              </a>
-              <a href="javascript:void(0);" class="dropdown-item notify-item">
-              <i class="zmdi zmdi-power"></i> <span>Logout</span>
-              </a>
-            </div>
-          </li>
-        </ul>
+        {% include "user_dropdown.html" %}
         <ul class="list-inline menu-left mb-0">
           <li class="float-left">
             <button class="button-menu-mobile open-left waves-light waves-effect">
@@ -118,8 +101,10 @@
                         {% for branch in project.branches %}
                           <a class="dropdown-item" href="{% url 'project-explorer' user.username|lower project.name branch %}">{{ branch }}</a>
                         {% endfor %}
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0);"><span class="invisible-button-icon"><i class="fa fa-plus margin-r-10"></i>Add Branch</a>
+                        {% if request.user.is_authenticated %}
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="javascript:void(0);"><span class="invisible-button-icon"><i class="fa fa-plus margin-r-10"></i>Add Branch</a>
+                        {% endif %}
                       </div>
                     </div>
                     <div class="pull-right m-t-15 btn-group">
@@ -143,11 +128,13 @@
                   <div class="card-header project-card-header">
                     <img src="{% static user.img %}" alt="user" class="rounded-circle" style="width: 40px">
                     <span class="inline commit-proj-username text-info font-weight-bold">{{ user.username }}</span> <a href="javascript:void(0);" class="black-link">{{ project.latest_commit }}</a>
-                    <div class="pull-right m-t-15">
-                      <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
-                      <span class="invisible-button-icon"><i class="fa fa-plus"></i>
-                      </span>Add File</button>
-                    </div>
+                    {% if request.user.is_authenticated %}
+                      <div class="pull-right m-t-15">
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
+                        <span class="invisible-button-icon"><i class="fa fa-plus"></i>
+                        </span>Add File</button>
+                      </div>
+                    {% endif %}
                   </div>
                   {% for file in project.files %}
                     <div class="card-block file-bottom-line">

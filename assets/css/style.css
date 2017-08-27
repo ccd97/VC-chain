@@ -1792,6 +1792,10 @@ label {
   color: #292b2c !important;
 }
 
+.white-link {
+
+}
+
 .navbar-user-img {
   width: 180px;
   margin: 30px;
@@ -1911,4 +1915,14 @@ label {
 .widget-user img {
   width: 60px;
   height: 60px;
+}
+
+.signin-signup {
+  margin-top: 25px;
+  margin-right: 15px;
+  font-size: 15px;
+}
+
+.white-link {
+  color: #ffffff !important;
 }

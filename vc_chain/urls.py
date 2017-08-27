@@ -21,7 +21,8 @@ app_name = 'vc_chain'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.indexView),
+    url(r'^$', views.indexRedirect),
+    url(r'^index/$', views.indexView, name="index"),
     url(r'^signin/$', views.signin, name="signin"),
     url(r'^signup/$', views.signup, name="signup"),
     url(r'^signout/$', views.signout, name="signout"),

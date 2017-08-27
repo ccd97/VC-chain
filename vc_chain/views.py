@@ -8,6 +8,10 @@ from vc_chain import dummy_data as dummy
 
 
 def indexView(request):
+    return render(request, 'index.html')
+
+
+def indexRedirect(request):
     if request.user.is_authenticated():
         return dashboardRedirect(request)
     else:
@@ -22,7 +26,7 @@ def signin(request):
         login(request, auth_user)
         return dashboardRedirect(request)
     else:
-        return indexView(request)
+        return indexRedirect(request)
 
 
 def signup(request):
@@ -36,7 +40,7 @@ def signup(request):
         login(request, auth_user)
         return dashboardRedirect(request)
     else:
-        return indexView(request)
+        return indexRedirect(request)
 
 
 def signout(request):
