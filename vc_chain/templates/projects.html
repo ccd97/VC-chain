@@ -13,7 +13,7 @@
     <div id="wrapper">
     <div class="topbar">
       <div class="topbar-left">
-        <a href="javascript:void(0);" class="logo">
+        <a href="{% url 'index' %}" class="logo">
         <i class="fa fa-link"></i>
         <span>VC-chain</span>
         </a>
@@ -43,9 +43,11 @@
                 </div>
                 <p class="text-muted mb-0 font-13">{{ user.email }}</p>
               </div>
-              <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
-              <span class="btn-label"><i class="icon-user-follow"></i>
-              </span>Follow</button>
+              {% if request.user.is_authenticated and request.user.username != user.username %}
+                <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
+                <span class="btn-label"><i class="icon-user-follow"></i>
+                </span>Follow</button>
+              {% endif %}
               <div>
           </li>
           <li class="text-muted menu-title">Navigation</li>
@@ -81,7 +83,7 @@
                 <div class="page-title-box">
                   <h4 class="page-title float-left">{{ type }}</h4>
                   <ol class="breadcrumb float-right">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">VC-Chain</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username %}">{{ user.username }}</a></li>
                     <li class="breadcrumb-item active">{{ type }}</li>
                   </ol>
@@ -89,7 +91,7 @@
                 </div>
               </div>
             </div>
-            {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated and type == "Projects" %}
               <div class="row">
                 <div class="col-sm-12">
                   <div class="btn-group pull-right m-t-15">

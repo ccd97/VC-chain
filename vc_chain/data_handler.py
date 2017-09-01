@@ -11,7 +11,7 @@ def getUserData(username):
     if user is None:
         raise Http404("User does not exist")
 
-    projects = Project.objects.filter(author=user)
+    projects = Project.objects.filter(author=user,  is_main_branch=True)
     stars = Star.objects.filter(user=user)
     following_count = Follow.objects.filter(follower=user).count()
 
@@ -44,7 +44,7 @@ def getProjectListData(username, just_fork=False):
     if user is None:
         raise Http404("User does not exist")
 
-    projects = Project.objects.filter(author=user)
+    projects = Project.objects.filter(author=user,  is_main_branch=True)
 
     p_list = list()
     for p in projects:
@@ -65,7 +65,7 @@ def getProjectListData(username, just_fork=False):
             "forks": fork_count,
         })
 
-    return [dict(t) for t in set([tuple(d.items()) for d in p_list])]
+    return p_list
 
 
 def getStarProjectListData(username):
@@ -74,7 +74,7 @@ def getStarProjectListData(username):
     if user is None:
         raise Http404("User does not exist")
 
-    projects = Star.objects.filter(user=user)
+    projects = Star.objects.filter(user=user,  project__is_main_branch=True)
 
     p_list = list()
     for s_p in projects:
@@ -94,7 +94,7 @@ def getStarProjectListData(username):
             "forks": fork_count,
         })
 
-    return [dict(t) for t in set([tuple(d.items()) for d in p_list])]
+    return p_list
 
 
 def getFollowerData(username):
@@ -154,7 +154,7 @@ def getTimelineData(username):
             "suser": s.project.author.username,
             "sproject": s.project.name,
         })
-    stars_to_me = Star.objects.filter(project__author=user)
+    stars_to_me = Star.objects.filter(project__author=user, project__is_main_branch=True)
     for s in stars_to_me:
         timeline_data.append({
             "type": "star",
@@ -163,7 +163,7 @@ def getTimelineData(username):
             "suser": s.project.author.username,
             "sproject": s.project.name,
         })
-    forks_by_me = Fork.objects.filter(forked_project__author=user)
+    forks_by_me = Fork.objects.filter(forked_project__author=user, forked_project__is_main_branch=True)
     for f in forks_by_me:
         timeline_data.append({
             "type": "fork",
@@ -174,7 +174,7 @@ def getTimelineData(username):
             "sproject": f.original_project.name,
         })
 
-    forks_to_me = Fork.objects.filter(original_project__author=user)
+    forks_to_me = Fork.objects.filter(original_project__author=user, original_project__is_main_branch=True)
     for f in forks_to_me:
         timeline_data.append({
             "type": "fork",
@@ -210,7 +210,6 @@ def getTimelineData(username):
             "branch": c.project.branch,
         })
 
-    timeline_data = [dict(t) for t in set([tuple(d.items()) for d in timeline_data])]
     timeline_data = sorted(timeline_data, key=lambda k: k['time'], reverse=True)
 
     return timeline_data
@@ -260,7 +259,7 @@ def getProjectExplorerData(username, projectname, branchname=None):
         raise Http404("User does not exist")
 
     if branchname is None:
-        project = Project.objects.filter(name__iexact=projectname).first()
+        project = Project.objects.filter(name__iexact=projectname, is_main_branch=True).first()
     else:
         project = Project.objects.filter(name__iexact=projectname, branch__iexact=branchname).first()
 
@@ -460,14 +459,7 @@ def getCommitDiffData(username, projectname, branchname, commitid):
 
     file_set = []
     for f in files:
-        prev_files = File.objects.filter(Q(name=f.name) | Q(code=f.code)).order_by('-commit__time')
-        for i in range(len(prev_files)):
-            if prev_files[i].commit == commit:
-                if i+1 >= len(prev_files):
-                    file_set.append([None, f])
-                else:
-                    file_set.append([prev_files[i+1], f])
-                break
+        file_set.append([f.previous_file, f])
 
     for f_p in file_set:
         old_code = "" if f_p[0] is None else f_p[0].code.splitlines()
@@ -478,13 +470,13 @@ def getCommitDiffData(username, projectname, branchname, commitid):
             diff_str += "new file mode 100644" + '\n'
         if f_p[1].size == "0":
             diff_str += "deleted file mode 100644" + '\n'
-        first_line = True
+        i = 0
         for line in difflib.unified_diff(old_code, new_code, fromfile=old_file, tofile=new_file):
-            if first_line:
+            if i == 0 or i == 1:
                 diff_str += line
-                first_line = False
             else:
                 diff_str += line + '\n'
+            i = i+1
 
     return {
         "project": project.name,
@@ -496,3 +488,33 @@ def getCommitDiffData(username, projectname, branchname, commitid):
         "date": commit.time,
         "diff": diff_str,
     }
+
+
+def addProject(username, project_name, branch_name, project_descr, commit_msg, files):
+    user = User.objects.filter(username__iexact=username).first()
+
+    if user is None:
+        raise Http404("User does not exist")
+
+    project = Project.objects.create(name=project_name, branch=branch_name, author=user, description=project_descr, is_main_branch=True)
+    commit = Commit.objects.create(project=project, message=commit_msg)
+
+    for f in files:
+        File.objects.create(commit=commit, name=f.name, size=f.size, code=f.read())
+
+
+def editFile(username, projectname, branchname, oldfilename, filename, code):
+    user = User.objects.filter(username__iexact=username).first()
+
+    if user is None:
+        raise Http404("User does not exist")
+
+    project = Project.objects.filter(name__iexact=projectname, branch__iexact=branchname).first()
+
+    if project is None:
+        raise Http404("Project does not exist")
+
+    old_file = File.objects.filter(commit__project=project, name=oldfilename).order_by('-commit__time').first()
+
+    commit = Commit.objects.create(project=project, message=("Edit " + oldfilename))
+    File.objects.create(commit=commit, name=filename, size=len(code), code=code, previous_file=old_file)

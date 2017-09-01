@@ -13,7 +13,7 @@
     <div id="wrapper">
     <div class="topbar">
       <div class="topbar-left">
-        <a href="javascript:void(0);" class="logo">
+        <a href="{% url 'index' %}" class="logo">
         <i class="fa fa-link"></i>
         <span>VC-chain</span>
         </a>
@@ -44,9 +44,11 @@
                 </div>
                 <p class="text-muted mb-0 font-13">{{ user.email }}</p>
               </div>
-              <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
-              <span class="btn-label"><i class="icon-user-follow"></i>
-              </span>Follow</button>
+              {% if request.user.is_authenticated and request.user.username != user.username %}
+                <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
+                <span class="btn-label"><i class="icon-user-follow"></i>
+                </span>Follow</button>
+              {% endif %}
               <div>
           </li>
           <li class="text-muted menu-title">Navigation</li>
@@ -82,7 +84,7 @@
                 <div class="page-title-box">
                   <h4 class="page-title float-left">{{ file.project }}</h4>
                   <ol class="breadcrumb float-right">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">VC-Chain</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'dashboard' user.username %}">{{ user.username }}</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'projects-list' user.username %}">Projects</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'project-explorer' user.username file.project %}">{{ file.project }}</a></li>
@@ -97,22 +99,28 @@
               <div class="col-sm-12">
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card m-b-20">
-                  <div class="card-header project-card-header">
-                    <div class="inline" style="margin-top: 10px;">
-                      <span class="text-info font-weight-bold margin-10 font-15">{{ file.name }}</span><a href="javascript:void(0);"><span class="label label-pill label-primary margin-10">Edit</span></a>
+            <form action="{% url 'code-edit-request' user.username file.project file.branch %}" role="form" method="post" >
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card m-b-20">
+                    <div class="card-header project-card-header">
+                      <div class="inline" style="margin-top: 10px;">
+                        <span id="file-name-span" class="text-info font-weight-bold margin-10 font-15">{{ file.name }}</span><a href="javascript:void(0);"><span class="label label-pill label-primary margin-10">Edit</span></a>
+                      </div>
+                      <div class="button-list pull-right m-t-15">
+                        <button id="save-button" type="submit" class="btn btn-outline-primary waves-effect waves-light">
+                        <i class="zmdi zmdi-save"></i></button>
+                      </div>
                     </div>
-                    <div class="button-list pull-right m-t-15">
-                      <button type="button" class="btn btn-outline-primary waves-effect waves-light">
-                      <i class="zmdi zmdi-save"></i></button>
-                    </div>
+                    <div id="editor">{{ file.code }}</div>
+                    <input type="hidden" id="editoroldfilename" name="editoroldfilename" value="{{ file.name }}"></input>
+                    <input type="hidden" id="editorfilename" name="editorfilename"></input>
+                    <input type="hidden" id="editorcode" name="editorcode"></input>
                   </div>
-                  <div id="editor">{{ file.code }}</div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -138,5 +146,15 @@
     <script src="{% static 'js/waves.js' %}"></script>
     <script src="{% static 'js/jquery.slimscroll.js' %}"></script>
     <script src="{% static 'js/jquery.app.js' %}"></script>
+    <script>
+      $(function(){
+        $('#save-button').click(function () {
+            var code = editor.getValue();
+            var filename = $('#file-name-span').html();
+            $('#editorfilename').val(filename);
+            $('#editorcode').val(code);
+        });
+      });
+    </script>
   </body>
 </html>

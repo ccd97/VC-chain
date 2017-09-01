@@ -115,6 +115,7 @@ def editProfileView(request, username):
 
 def followersView(request, username):
     data = {
+        "type": "Followers",
         "user": data_handler.getUserData(username),
         "people": data_handler.getFollowerData(username),
     }
@@ -123,6 +124,7 @@ def followersView(request, username):
 
 def followingsView(request, username):
     data = {
+        "type": "Following",
         "user": data_handler.getUserData(username),
         "people": data_handler.getFollowingData(username),
     }
@@ -162,3 +164,27 @@ def forkProjectsListView(request, username):
         "projects": data_handler.getProjectListData(username, just_fork=True),
     }
     return render(request, 'projects.html', data)
+
+
+@login_required
+def addProject(request, username):
+    project_name = request.POST["projectnameinput"]
+    branch_name = request.POST["branchnameinput"]
+    project_descr = request.POST['descriptioninput']
+    commit_msg = request.POST['commitmessageinput']
+    files = request.FILES.getlist('files[]')
+
+    data_handler.addProject(username, project_name, branch_name, project_descr, commit_msg, files)
+
+    return redirect('/user/' + request.user.username + "/projects")
+
+
+@login_required
+def codeEditFile(request, username, projectname, branchname):
+    oldfilename = request.POST['editoroldfilename']
+    filename = request.POST['editorfilename']
+    code = request.POST['editorcode']
+
+    data_handler.editFile(username, projectname, branchname, oldfilename, filename, code)
+
+    return redirect('/user/' + request.user.username + "/projects")

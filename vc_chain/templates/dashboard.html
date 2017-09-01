@@ -44,9 +44,11 @@
                         </div>
                         <p class="text-muted mb-0 font-13">{{ user.email }}</p>
                      </div>
-                     <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
-                     <span class="btn-label"><i class="icon-user-follow"></i>
-                     </span>Follow</button>
+                     {% if request.user.is_authenticated and request.user.username != user.username %}
+                       <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
+                       <span class="btn-label"><i class="icon-user-follow"></i>
+                       </span>Follow</button>
+                     {% endif %}
                      <div>
                </li>
                <li class="text-muted menu-title">Navigation</li>
@@ -82,7 +84,7 @@
                         <div class="page-title-box">
                            <h4 class="page-title float-left">Dashboard</h4>
                            <ol class="breadcrumb float-right">
-                              <li class="breadcrumb-item"><a href="javascript:void(0);">VC-Chain</a></li>
+                              <li class="breadcrumb-item"><a href="{% url 'index' %}">VC-Chain</a></li>
                               <li class="breadcrumb-item"><a>{{ user.username }}</a></li>
                               <li class="breadcrumb-item active">Dashboard</li>
                            </ol>
@@ -145,13 +147,13 @@
                                          <div class="item-info">
                                             <small class="text-muted">{{ event.time }}</small>
                                             {% if event.type == "commit" %}
-                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> pushed a commit to <strong class="text-success">{{ event.pproject }}</strong> project on <span class="text-success">{{ event.branch }}</span> branch</p>
+                                              <p><strong><a class="text-info">{{ event.puser }}</a></strong> pushed a commit to <strong class="text-success">{{ event.pproject }}</strong> project on <span class="text-success">{{ event.branch }}</span> branch</p>
                                             {% elif event.type == "star" %}
-                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> starred <strong class="text-success">{{ event.suser }}/{{ event.sproject }}</strong> project</p>
+                                              <p><strong><a class="text-info">{{ event.puser }}</a></strong> starred <strong class="text-success">{{ event.suser }}/{{ event.sproject }}</strong> project</p>
                                             {% elif event.type == "fork" %}
-                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> forked project <strong class="text-success">{{ event.suser }}/{{ event.sproject }}</strong> to <strong class="text-success">{{ event.puser }}/{{ event.pproject }}</strong> project</p>
+                                              <p><strong><a class="text-info">{{ event.puser }}</a></strong> forked project <strong class="text-success">{{ event.suser }}/{{ event.sproject }}</strong> to <strong class="text-success">{{ event.puser }}/{{ event.pproject }}</strong> project</p>
                                             {% elif event.type == "follow" %}
-                                              <p><strong><a href="javascript:void(0);" class="text-info">{{ event.puser }}</a></strong> is now following <strong class="text-success">{{ event.suser }}</strong></p>
+                                              <p><strong><a class="text-info">{{ event.puser }}</a></strong> is now following <strong class="text-success">{{ event.suser }}</strong></p>
                                             {% endif %}
                                          </div>
                                       </div>

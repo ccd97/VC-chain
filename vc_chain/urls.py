@@ -43,4 +43,7 @@ urlpatterns = [
 
     url(r'^user/(?P<username>[\w_]{3,50})/followers/$', views.followersView, name="followers-list"),
     url(r'^user/(?P<username>[\w_]{3,50})/following/$', views.followingsView, name="following-list"),
+
+    url(r'^user/(?P<username>[\w_]{3,50})/add-project/$', views.addProject, name="add-project-request"),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/edit-file-request$', views.codeEditFile, name="code-edit-request"),
 ]
