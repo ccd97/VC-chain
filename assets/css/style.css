@@ -1927,3 +1927,7 @@ label {
 .white-link {
   color: #ffffff !important;
 }
+
+.pointer-cursor {
+    cursor: pointer !important;
+}

@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
     <title>VC-chain</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
   </head>
   <body class="fixed-left">
@@ -99,28 +100,23 @@
               <div class="col-sm-12">
               </div>
             </div>
-            <form action="{% url 'code-edit-request' user.username file.project file.branch %}" role="form" method="post" >
-              {% csrf_token %}
               <div class="row">
                 <div class="col-sm-12">
                   <div class="card m-b-20">
                     <div class="card-header project-card-header">
                       <div class="inline" style="margin-top: 10px;">
-                        <span id="file-name-span" class="text-info font-weight-bold margin-10 font-15">{{ file.name }}</span><a href="javascript:void(0);"><span class="label label-pill label-primary margin-10">Edit</span></a>
+                        <span id="file-name-span" class="text-info font-weight-bold margin-10 font-15">{{ file.name }}</span>
+                        <a class="pointer-cursor" id="edit-button"><span class="label label-pill label-primary margin-10">Edit</span></a>
                       </div>
                       <div class="button-list pull-right m-t-15">
-                        <button id="save-button" type="submit" class="btn btn-outline-primary waves-effect waves-light">
+                        <button id="save-button" type=button class="btn btn-outline-primary waves-effect waves-light">
                         <i class="zmdi zmdi-save"></i></button>
                       </div>
                     </div>
                     <div id="editor">{{ file.code }}</div>
-                    <input type="hidden" id="editoroldfilename" name="editoroldfilename" value="{{ file.name }}"></input>
-                    <input type="hidden" id="editorfilename" name="editorfilename"></input>
-                    <input type="hidden" id="editorcode" name="editorcode"></input>
                   </div>
                 </div>
               </div>
-            </form>
           </div>
         </div>
       </div>
@@ -146,14 +142,56 @@
     <script src="{% static 'js/waves.js' %}"></script>
     <script src="{% static 'js/jquery.slimscroll.js' %}"></script>
     <script src="{% static 'js/jquery.app.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.min.js' %}"></script>
+    {% csrf_token %}
     <script>
       $(function(){
+
         $('#save-button').click(function () {
-            var code = editor.getValue();
-            var filename = $('#file-name-span').html();
-            $('#editorfilename').val(filename);
-            $('#editorcode').val(code);
+            swal({
+              title: 'Commit Message',
+              input: 'textarea',
+              inputPlaceholder: 'Edit ' + '{{ file.name }}',
+              showCancelButton: true,
+              allowOutsideClick: false,
+              confirmButtonText: 'Submit',
+            }).then(function (msg) {
+              if(!msg) msg = 'Edit ' + '{{ file.name }}'
+              $.ajax({
+                  url: "{% url 'code-edit-request' user.username file.project file.branch %}",
+                  type: "POST",
+                  data: {
+                      csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+                      editoroldfilename: "{{ file.name }}",
+                      editorfilename: $('#file-name-span').html(),
+                      editorcode: editor.getValue(),
+                      editorcommit: msg
+                  },
+                  success: function () {
+                      swal("Commited!", "Commit Message : " + msg, "success");
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                      swal("Error Commiting!", "Please try again", "error");
+                  }
+              });
+            }).catch(swal.noop)
         });
+
+        $('#edit-button').click(function () {
+            swal({
+              title: 'New File Name',
+              input: 'text',
+              inputPlaceholder: '{{ file.name }}',
+              showCancelButton: true,
+              allowOutsideClick: false,
+              confirmButtonText: 'Edit',
+            }).then(function (filename) {
+              if(!filename) filename = '{{ file.name }}'
+              $('#file-name-span').html(filename)
+            }).catch(swal.noop)
+        });
+
+
       });
     </script>
   </body>

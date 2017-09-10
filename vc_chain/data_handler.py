@@ -274,6 +274,8 @@ def getProjectExplorerData(username, projectname, branchname=None):
         if f.size == "0":
             current_files.pop(f.name)
         else:
+            if f.previous_file is not None and f.previous_file.name != f.name:
+                current_files.pop(f.previous_file.name)
             current_files[f.name] = {
                 "last_commit": f.commit.message,
                 "last_commit_time": f.commit.time,
@@ -503,7 +505,7 @@ def addProject(username, project_name, branch_name, project_descr, commit_msg, f
         File.objects.create(commit=commit, name=f.name, size=f.size, code=f.read())
 
 
-def editFile(username, projectname, branchname, oldfilename, filename, code):
+def editFile(username, projectname, branchname, oldfilename, filename, code, commit_message):
     user = User.objects.filter(username__iexact=username).first()
 
     if user is None:
@@ -516,5 +518,5 @@ def editFile(username, projectname, branchname, oldfilename, filename, code):
 
     old_file = File.objects.filter(commit__project=project, name=oldfilename).order_by('-commit__time').first()
 
-    commit = Commit.objects.create(project=project, message=("Edit " + oldfilename))
+    commit = Commit.objects.create(project=project, message=commit_message)
     File.objects.create(commit=commit, name=filename, size=len(code), code=code, previous_file=old_file)

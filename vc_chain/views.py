@@ -184,7 +184,8 @@ def codeEditFile(request, username, projectname, branchname):
     oldfilename = request.POST['editoroldfilename']
     filename = request.POST['editorfilename']
     code = request.POST['editorcode']
+    commit_msg = request.POST['editorcommit']
 
-    data_handler.editFile(username, projectname, branchname, oldfilename, filename, code)
+    data_handler.editFile(username, projectname, branchname, oldfilename, filename, code, commit_msg)
 
     return redirect('/user/' + request.user.username + "/projects")
