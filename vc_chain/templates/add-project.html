@@ -37,7 +37,7 @@
             <ul>
                <li>
                   <div class="navbar-user-container">
-                     <img src="{% static user.img %}" alt="user" class="rounded-circle navbar-user-img">
+                     <img src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class="rounded-circle navbar-user-img">
                      <div class="wid-u-info user-info-container">
                         <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
                         <div class="inline">

@@ -35,7 +35,7 @@
         <ul>
           <li>
             <div class="navbar-user-container">
-              <img src="{% static user.img %}" alt="user" class="rounded-circle navbar-user-img">
+              <img src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class="rounded-circle navbar-user-img">
               <div class="wid-u-info user-info-container">
                 <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
                 <div class="inline">
@@ -128,7 +128,7 @@
               <div class="col-sm-12">
                 <div class="card m-b-20">
                   <div class="card-header project-card-header">
-                    <img src="{% static user.img %}" alt="user" class="rounded-circle" style="width: 40px">
+                    <img src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class="rounded-circle" style="width: 40px">
                     <span class="inline commit-proj-username text-info font-weight-bold">{{ user.username }}</span> <a href="javascript:void(0);" class="black-link">{{ project.latest_commit }}</a>
                     {% if request.user.is_authenticated %}
                       <div class="pull-right m-t-15">

@@ -1,10 +1,23 @@
 from django.db import models
+import uuid
+import os
 
 
 class User(models.Model):
-    username = models.CharField(max_length=20, primary_key=True)
+
+    def get_upload_to(instance, filename):
+        upload_to = 'user_avatars'
+        ext = filename.split('.')[-1]
+        if instance.pk:
+            filename = '{}.{}'.format(instance.pk, ext)
+        else:
+            filename = '{}.{}'.format(uuid.uuid4().hex, ext)
+        return upload_to + '/' + filename
+
+    username = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=50)
     email = models.EmailField()
+    avatar = models.ImageField(upload_to=get_upload_to, default='user_avatars/default-avatar.jpg', blank=False, null=False)
 
     def __str__(self):
         return self.username

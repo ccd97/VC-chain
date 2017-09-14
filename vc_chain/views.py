@@ -189,3 +189,21 @@ def codeEditFile(request, username, projectname, branchname):
     data_handler.editFile(username, projectname, branchname, oldfilename, filename, code, commit_msg)
 
     return redirect('/user/' + request.user.username + "/projects")
+
+
+@login_required
+def editProfile(request, username):
+    new_name = request.POST['profileName']
+    new_username = request.POST['profileUsername']
+    new_email = request.POST['profileEmail']
+    new_password = request.POST['profilePassword']
+    if 'profileImageFile' in request.POST:
+        new_image = request.POST['profileImageFile']
+    elif 'profileImageFile' in request.FILES:
+        new_image = request.FILES['profileImageFile']
+    else:
+        new_image = ''
+
+    data_handler.editProfile(username, new_username, new_name, new_email, new_image, new_password)
+
+    return redirect('/')

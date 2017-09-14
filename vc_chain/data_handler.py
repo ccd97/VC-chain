@@ -1,6 +1,6 @@
 from vc_chain.models import User, Project, Star, Follow, Fork, Commit, File
 from django.http import Http404
-from django.db.models import Q
+from django.contrib.auth.models import User as AuthUser
 import datetime
 import difflib
 
@@ -30,7 +30,7 @@ def getUserData(username):
         "name": user.name,
         "username": user.username,
         "email": user.email,
-        "img": "images/users/ccd-avatar.jpg",
+        "img": user.avatar,
         "projects": len(p_set),
         "stars": len(s_set),
         "forks": len(f_set),
@@ -111,7 +111,7 @@ def getFollowerData(username):
             "name": f.follower.name,
             "username": f.follower.username,
             "email": f.follower.email,
-            "img": "images/users/ccd-avatar.jpg",
+            "img": f.follower.avatar,
         })
 
     return f_list
@@ -131,7 +131,7 @@ def getFollowingData(username):
             "name": f.followed.name,
             "username": f.followed.username,
             "email": f.followed.email,
-            "img": "images/users/ccd-avatar.jpg",
+            "img": f.followed.email.avatar,
         })
 
     return f_list
@@ -330,7 +330,7 @@ def getCommitListData(username, projectname, branchname):
         date = c.time.date()
         c_data = {
             "author": c.project.author.username,
-            "author_img": "images/users/ccd-avatar.jpg",
+            "author_img": c.project.author.avatar,
             "message": c.message,
             "id": c.commit_id,
             "time": c.time
@@ -484,7 +484,7 @@ def getCommitDiffData(username, projectname, branchname, commitid):
         "project": project.name,
         "branch": project.branch,
         "author": project.author.username,
-        "author_img": "images/users/ccd-avatar.jpg",
+        "author_img": project.author.avatar,
         "message": commit.message,
         "commit_id": commit.commit_id,
         "date": commit.time,
@@ -520,3 +520,29 @@ def editFile(username, projectname, branchname, oldfilename, filename, code, com
 
     commit = Commit.objects.create(project=project, message=commit_message)
     File.objects.create(commit=commit, name=filename, size=len(code), code=code, previous_file=old_file)
+
+
+def editProfile(old_username, username, name, email, avatar, password):
+
+    user = User.objects.filter(username__iexact=old_username).first()
+    authuser = AuthUser.objects.filter(username__iexact=old_username).first()
+
+    if user is None or authuser is None:
+        raise Http404("User does not exist")
+
+    if username:
+        user.username = username
+    if name:
+        user.name = name
+    if email:
+        user.email = email
+    if avatar:
+        user.avatar = avatar
+
+    if password:
+        authuser.set_password(password)
+    if username:
+        authuser.username = username
+
+    user.save()
+    authuser.save()

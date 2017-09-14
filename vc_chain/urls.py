@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from vc_chain import views
+from vc_chain import views, settings
+from django.conf.urls.static import static
 
 app_name = 'vc_chain'
 
@@ -44,6 +45,10 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w_]{3,50})/followers/$', views.followersView, name="followers-list"),
     url(r'^user/(?P<username>[\w_]{3,50})/following/$', views.followingsView, name="following-list"),
 
+    url(r'^user/(?P<username>[\w_]{3,50})/profile-edit/$', views.editProfile, name="edit-profile-request"),
     url(r'^user/(?P<username>[\w_]{3,50})/add-project/$', views.addProject, name="add-project-request"),
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/edit-file-request$', views.codeEditFile, name="code-edit-request"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -35,7 +35,7 @@
         <ul>
           <li>
             <div class="navbar-user-container">
-              <img src="{% static user.img %}" alt="user" class="rounded-circle navbar-user-img">
+              <img src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class="rounded-circle navbar-user-img">
               <div class="wid-u-info user-info-container">
                 <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
                 <div class="inline">
@@ -96,7 +96,7 @@
                 <div class="col-xs-12 col-md-12 col-lg-12 col-xl-4">
                   <a href="{% url 'dashboard' person.username %}">
                     <div class="card-box widget-user">
-                      <img src="{% static person.img %}" class="img-responsive rounded-circle" alt="user">
+                      <img src="{{ MEDIA_URL }}{{ person.img }}" class="img-responsive rounded-circle" alt="user">
                       <div class="wid-u-info margin-20 user-info-container">
                         <h5 class="m-t-20 m-b-5 inline black-link">{{ person.name }}</h5>
                         <span class="text-primary font-weight-bold margin-10">{{ person.username }}</span>

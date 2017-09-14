@@ -88,3 +88,6 @@ migrations
 
 .env
 db.sqlite3
+
+# media folder
+media

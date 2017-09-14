@@ -35,7 +35,7 @@
         <ul>
           <li>
             <div class="navbar-user-container">
-              <img src="{% static user.img %}" alt="user" class="rounded-circle navbar-user-img">
+              <img src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class="rounded-circle navbar-user-img">
               <div class="wid-u-info user-info-container">
                 <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
                 <div class="inline">
@@ -90,7 +90,8 @@
               <div class="col-12">
                 <div class="card-box">
                   <h4 class="header-title m-t-0 m-b-30">Profile</h4>
-                  <form>
+                  <form role="form" method="post" action="{% url 'edit-profile-request' user.username %}" enctype="multipart/form-data" data-parsley-validate>
+                    {% csrf_token %}
                     <div class="row">
                       <div class="col-xl-5">
                         <fieldset class="form-group">
@@ -99,9 +100,9 @@
                             <small class="text-muted">Click Image to change it</small><br>
                             <div class="profile-image-update">
                               <label for="profileImageInput">
-                              <img src="{% static user.img %}" alt="user" class=" user-profile-change-image">
+                              <img id="profileImagePreview" src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class=" user-profile-change-image">
                               </label>
-                              <input id="profileImageInput" type="file"/>
+                              <input name="profileImageFile" id="profileImageInput" type="file" accept="image/x-png,image/gif,image/jpeg" />
                             </div>
                           </div>
                         </fieldset>
@@ -109,23 +110,23 @@
                       <div class="col-xl-7">
                         <fieldset class="form-group">
                           <label for="inputFullName">Full name</label>
-                          <input type="text" class="form-control" id="inputFullName" placeholder="{{ user.name }}">
+                          <input name="profileName" type="text" class="form-control" id="inputFullName" value="{{ user.name }}">
                           <small class="text-muted">Edit your full name</small>
                         </fieldset>
                         <fieldset class="form-group">
                           <label for="inputUsername">Username</label>
-                          <input type="text" class="form-control" id="inputUsername" placeholder="{{ user.username }}">
+                          <input name="profileUsername" type="text" class="form-control" id="inputUsername" value="{{ user.username }}">
                           <small class="text-muted">Edit your username</small>
                         </fieldset>
                         <fieldset class="form-group">
                           <label for="inputEmail1">Email address</label>
-                          <input type="email" class="form-control" id="inputEmail1" placeholder="{{ user.email }}">
+                          <input name="profileEmail" type="email" class="form-control" id="inputEmail1" value="{{ user.email }}">
                           <small class="text-muted">Enter new email id</small>
                         </fieldset>
                         <fieldset class="form-group">
                           <label for="inputEmail1">Password</label>
-                          <input type="password" class="form-control" id="inputEmail1" placeholder="Enter Password">
-                          <small class="text-muted">Enter new password</small>
+                          <input name="profilePassword" type="password" class="form-control" id="inputEmail1" placeholder="Enter Password">
+                          <small class="text-muted">Enter new password or leave empty</small>
                         </fieldset>
                       </div>
                     </div>
@@ -160,5 +161,17 @@
     <script src="{% static 'js/jquery.app.js' %}"></script>
     <script src="{% static 'plugins/jquery.filer/js/jquery.filer.min.js' %}"></script>
     <script src="{% static 'pages/jquery.fileuploads.init.js' %}"></script>
+    <script>
+      $(function(){
+        $('#profileImageInput').change(function(){
+          var input = this;
+          var reader = new FileReader();
+          reader.onload = function (e) {
+             $('#profileImagePreview').attr('src', e.target.result);
+          }
+         reader.readAsDataURL(input.files[0]);
+        });
+      });
+    </script>
   </body>
 </html>
