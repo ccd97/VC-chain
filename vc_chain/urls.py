@@ -48,6 +48,8 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w_]{3,50})/profile-edit/$', views.editProfile, name="edit-profile-request"),
     url(r'^user/(?P<username>[\w_]{3,50})/add-project/$', views.addProject, name="add-project-request"),
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/edit-file-request$', views.codeEditFile, name="code-edit-request"),
+    url(r'^user/(?P<username>[\w_]{3,50})/follow/(?P<following>[\w_]{3,50})$', views.followUser, name="follow"),
+    url(r'^user/(?P<username>[\w_]{3,50})/unfollow/(?P<following>[\w_]{3,50})$', views.unfollowUser, name="unfollow"),
 ]
 
 if settings.DEBUG:

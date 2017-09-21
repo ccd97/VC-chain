@@ -57,7 +57,7 @@ def dashboardRedirect(request):
 
 def dashboardView(request, username):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "timeline": data_handler.getTimelineData(username),
         "commit_stat": data_handler.getCommitStatsData(username),
     }
@@ -67,7 +67,7 @@ def dashboardView(request, username):
 @login_required
 def addProjectView(request, username):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
     }
     return render(request, 'add-project.html', data)
 
@@ -75,7 +75,7 @@ def addProjectView(request, username):
 @login_required
 def codeEditView(request, username, projectname, branchname, filename):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "file": data_handler.getFileCodeData(username, projectname, branchname, filename),
     }
     return render(request, 'code-edit.html', data)
@@ -83,7 +83,7 @@ def codeEditView(request, username, projectname, branchname, filename):
 
 def codeView(request, username, projectname, branchname, filename):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "file": data_handler.getFileCodeData(username, projectname, branchname, filename),
     }
     return render(request, 'code-view.html', data)
@@ -91,7 +91,7 @@ def codeView(request, username, projectname, branchname, filename):
 
 def commitView(request, username, projectname, branchname, commitid):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "commit_diff": data_handler.getCommitDiffData(username, projectname, branchname, commitid),
     }
     return render(request, 'commit-view.html', data)
@@ -99,7 +99,7 @@ def commitView(request, username, projectname, branchname, commitid):
 
 def commitsListView(request, username, projectname, branchname):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "commits": data_handler.getCommitListData(username, projectname, branchname),
     }
     return render(request, 'commits.html', data)
@@ -108,7 +108,7 @@ def commitsListView(request, username, projectname, branchname):
 @login_required
 def editProfileView(request, username):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
     }
     return render(request, 'edit-profile.html', data)
 
@@ -116,7 +116,7 @@ def editProfileView(request, username):
 def followersView(request, username):
     data = {
         "type": "Followers",
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "people": data_handler.getFollowerData(username),
     }
     return render(request, 'people.html', data)
@@ -125,7 +125,7 @@ def followersView(request, username):
 def followingsView(request, username):
     data = {
         "type": "Following",
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "people": data_handler.getFollowingData(username),
     }
     return render(request, 'people.html', data)
@@ -133,7 +133,7 @@ def followingsView(request, username):
 
 def projectExplorerView(request, username, projectname, branchname=None):
     data = {
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "project": data_handler.getProjectExplorerData(username, projectname, branchname),
     }
     return render(request, 'project-explore.html', data)
@@ -142,7 +142,7 @@ def projectExplorerView(request, username, projectname, branchname=None):
 def projectsListView(request, username):
     data = {
         "type": "Projects",
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "projects": data_handler.getProjectListData(username),
     }
     return render(request, 'projects.html', data)
@@ -151,7 +151,7 @@ def projectsListView(request, username):
 def starProjectsListView(request, username):
     data = {
         "type": "Stars",
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "projects": data_handler.getStarProjectListData(username),
     }
     return render(request, 'projects.html', data)
@@ -160,7 +160,7 @@ def starProjectsListView(request, username):
 def forkProjectsListView(request, username):
     data = {
         "type": "Forks",
-        "user": data_handler.getUserData(username),
+        "user": data_handler.getUserData(username, request.user.username),
         "projects": data_handler.getProjectListData(username, just_fork=True),
     }
     return render(request, 'projects.html', data)
@@ -207,3 +207,15 @@ def editProfile(request, username):
     data_handler.editProfile(username, new_username, new_name, new_email, new_image, new_password)
 
     return redirect('/')
+
+
+@login_required
+def followUser(request, username, following):
+    data_handler.addFollow(username, following)
+    return followingsView(request, username)
+
+
+@login_required
+def unfollowUser(request, username, following):
+    data_handler.removeFollow(username, following)
+    return followingsView(request, username)

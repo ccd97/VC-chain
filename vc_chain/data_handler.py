@@ -5,8 +5,16 @@ import datetime
 import difflib
 
 
-def getUserData(username):
+def getUserData(username, logined_username):
     user = User.objects.filter(username__iexact=username).first()
+
+    if logined_username:
+        curr_user = User.objects.filter(username__iexact=logined_username).first()
+        user_img = curr_user.avatar
+        follow_button = (not Follow.objects.filter(follower=curr_user, followed=user))
+    else:
+        user_img = None
+        follow_button = None
 
     if user is None:
         raise Http404("User does not exist")
@@ -31,10 +39,12 @@ def getUserData(username):
         "username": user.username,
         "email": user.email,
         "img": user.avatar,
+        "user_img": user_img,
         "projects": len(p_set),
         "stars": len(s_set),
         "forks": len(f_set),
         "following": following_count,
+        "follow_button": follow_button,
     }
 
 
@@ -131,7 +141,7 @@ def getFollowingData(username):
             "name": f.followed.name,
             "username": f.followed.username,
             "email": f.followed.email,
-            "img": f.followed.email.avatar,
+            "img": f.followed.avatar,
         })
 
     return f_list
@@ -523,7 +533,6 @@ def editFile(username, projectname, branchname, oldfilename, filename, code, com
 
 
 def editProfile(old_username, username, name, email, avatar, password):
-
     user = User.objects.filter(username__iexact=old_username).first()
     authuser = AuthUser.objects.filter(username__iexact=old_username).first()
 
@@ -546,3 +555,23 @@ def editProfile(old_username, username, name, email, avatar, password):
 
     user.save()
     authuser.save()
+
+
+def addFollow(follower, following):
+    follower_user = User.objects.filter(username__iexact=follower).first()
+    following_user = User.objects.filter(username__iexact=following).first()
+
+    if follower_user is None or following_user is None:
+        raise Http404("User does not exist")
+
+    Follow.objects.create(follower=follower_user, followed=following_user)
+
+
+def removeFollow(follower, following):
+    follower_user = User.objects.filter(username__iexact=follower).first()
+    following_user = User.objects.filter(username__iexact=following).first()
+
+    if follower_user is None or following_user is None:
+        raise Http404("User does not exist")
+
+    Follow.objects.filter(follower=follower_user, followed=following_user).delete()

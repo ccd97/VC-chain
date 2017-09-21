@@ -31,50 +31,7 @@
     </div>
     <div class="left side-menu">
     <div class="sidebar-inner slimscrollleft">
-      <div id="sidebar-menu">
-        <ul>
-          <li>
-            <div class="navbar-user-container">
-              <img src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class="rounded-circle navbar-user-img">
-              <div class="wid-u-info user-info-container">
-                <h5 class="m-t-20 m-b-5 user-info">{{ user.name }}</h5>
-                <div class="inline">
-                  <span class="inline navbar-user-name text-info font-weight-bold">{{ user.username }}</span>
-                </div>
-                <p class="text-muted mb-0 font-13">{{ user.email }}</p>
-              </div>
-              {% if request.user.is_authenticated and request.user.username != user.username %}
-                <button type="button" class="btn btn-info waves-effect waves-light navbar-follow-button">
-                <span class="btn-label"><i class="icon-user-follow"></i>
-                </span>Follow</button>
-              {% endif %}
-              <div>
-          </li>
-          <li class="text-muted menu-title">Navigation</li>
-          <li class="has_sub">
-          <a href="{% url 'dashboard' user.username %}" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
-          </li>
-          <li class="has_sub">
-          <a href="{% url 'projects-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-folder-outline"></i> <span> Projects </span> </a>
-          </li>
-          <li class="has_sub">
-          <a href="{% url 'stars-list' user.username %}" class="waves-effect"><i class="zmdi zmdi-star-outline"></i> <span> Stars </span> </a>
-          </li>
-          <li class="has_sub">
-          <a href="{% url 'forks-list' user.username %}" class="waves-effect"><i class="fa fa-code-fork"></i> <span> Forks </span> </a>
-          </li>
-          <li class="has_sub">
-          <a href="{% url 'followers-list' user.username %}" class="waves-effect"><i class="icon-user-follow"></i> <span> Followers </span> </a>
-          </li>
-          <li class="has_sub">
-          <a href="{% url 'following-list' user.username %}" class="waves-effect"><i class="icon-user-following"></i> <span> Following </span> </a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-        </div>
-        <div class="clearfix"></div>
-        </div>
-      </div>
+      {% include "sidebar_menu.html" %}
       <div class="content-page">
         <div class="content">
           <div class="container-fluid">
@@ -91,7 +48,7 @@
                 </div>
               </div>
             </div>
-            {% if request.user.is_authenticated and type == "Projects" %}
+            {% if request.user.is_authenticated and request.user.username == user.username and type == "Projects" %}
               <div class="row">
                 <div class="col-sm-12">
                   <div class="btn-group pull-right m-t-15">
