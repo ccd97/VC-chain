@@ -262,7 +262,7 @@ def getCommitStatsData(username):
     return commit_data
 
 
-def getProjectExplorerData(username, projectname, branchname=None):
+def getProjectExplorerData(username, projectname, branchname=None, logined_username=None):
     user = User.objects.filter(username__iexact=username).first()
 
     if user is None:
@@ -275,6 +275,14 @@ def getProjectExplorerData(username, projectname, branchname=None):
 
     if project is None:
         raise Http404("Project does not exist")
+
+    if logined_username:
+        curr_user = User.objects.filter(username__iexact=logined_username).first()
+        not_starred = (not Star.objects.filter(user=curr_user, project=project))
+        not_forked = (not Fork.objects.filter(original_project=project, forked_project__author=curr_user))
+    else:
+        not_starred = None
+        not_forked = None
 
     files = File.objects.filter(commit__project=project).order_by('commit__time')
     current_files = {}
@@ -319,6 +327,8 @@ def getProjectExplorerData(username, projectname, branchname=None):
         "commits": commits_count,
         "branches": branches,
         "files": file_data,
+        "starred": not not_starred,
+        "forked": not not_forked,
     }
 
 
@@ -575,3 +585,33 @@ def removeFollow(follower, following):
         raise Http404("User does not exist")
 
     Follow.objects.filter(follower=follower_user, followed=following_user).delete()
+
+
+def addStar(starred_user, starred_project, starrer):
+    user = User.objects.filter(username__iexact=starred_user).first()
+    starrer_user = User.objects.filter(username__iexact=starrer).first()
+
+    if user is None or starred_user is None:
+        raise Http404("User does not exist")
+
+    project = Project.objects.filter(name__iexact=starred_project, is_main_branch=True).first()
+
+    if project is None:
+        raise Http404("Project does not exist")
+
+    Star.objects.create(user=starrer_user, project=project)
+
+
+def removeStar(starred_user, starred_project, starrer):
+    user = User.objects.filter(username__iexact=starred_user).first()
+    starrer_user = User.objects.filter(username__iexact=starrer).first()
+
+    if user is None or starred_user is None:
+        raise Http404("User does not exist")
+
+    project = Project.objects.filter(name__iexact=starred_project, is_main_branch=True).first()
+
+    if project is None:
+        raise Http404("Project does not exist")
+
+    Star.objects.filter(user=starrer_user, project=project).delete()

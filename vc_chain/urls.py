@@ -50,6 +50,8 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/(?P<branchname>[-\w_]{3,50})/edit-file-request$', views.codeEditFile, name="code-edit-request"),
     url(r'^user/(?P<username>[\w_]{3,50})/follow/(?P<following>[\w_]{3,50})$', views.followUser, name="follow"),
     url(r'^user/(?P<username>[\w_]{3,50})/unfollow/(?P<following>[\w_]{3,50})$', views.unfollowUser, name="unfollow"),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/star/(?P<starrer>[\w_]{3,50})$', views.starProject, name="project-star"),
+    url(r'^user/(?P<username>[\w_]{3,50})/projects/(?P<projectname>[-\w_]{3,50})/unstar/(?P<starrer>[\w_]{3,50})$', views.unstarProject, name="project-unstar"),
 ]
 
 if settings.DEBUG:

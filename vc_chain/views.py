@@ -134,7 +134,7 @@ def followingsView(request, username):
 def projectExplorerView(request, username, projectname, branchname=None):
     data = {
         "user": data_handler.getUserData(username, request.user.username),
-        "project": data_handler.getProjectExplorerData(username, projectname, branchname),
+        "project": data_handler.getProjectExplorerData(username, projectname, branchname, request.user.username),
     }
     return render(request, 'project-explore.html', data)
 
@@ -219,3 +219,15 @@ def followUser(request, username, following):
 def unfollowUser(request, username, following):
     data_handler.removeFollow(username, following)
     return followingsView(request, username)
+
+
+@login_required
+def starProject(request, username, projectname, starrer):
+    data_handler.addStar(username, projectname, starrer)
+    return projectExplorerView(request, username, projectname)
+
+
+@login_required
+def unstarProject(request, username, projectname, starrer):
+    data_handler.removeStar(username, projectname, starrer)
+    return projectExplorerView(request, username, projectname)

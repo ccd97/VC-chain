@@ -67,9 +67,21 @@
                       </div>
                     </div>
                     <div class="pull-right m-t-15 btn-group">
-                      <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
-                      <span class="invisible-button-icon">Star <i class="zmdi zmdi-star-outline"></i>
-                      </span>{{ project.stars }}</button>
+                      {% if request.user.is_authenticated %}
+                        {% if project.starred %}
+                          <button type="button" class="btn btn-primary waves-effect waves-light margin-20" onclick='location.href="{% url 'project-unstar' user.username project.name request.user.username %}"'>
+                          <span class="invisible-button-icon">Unstar <i class="zmdi zmdi-star-outline"></i>
+                          </span>{{ project.stars }}</button>
+                        {% else %}
+                          <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20" onclick='location.href="{% url 'project-star' user.username project.name request.user.username %}"'>
+                          <span class="invisible-button-icon">Star <i class="zmdi zmdi-star-outline"></i>
+                          </span>{{ project.stars }}</button>
+                        {% endif %}
+                      {% else %}
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
+                        <span class="invisible-button-icon">Star <i class="zmdi zmdi-star-outline"></i>
+                        </span>{{ project.stars }}</button>
+                      {% endif %}
                       <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
                       <span class="invisible-button-icon">Fork <i class="fa fa-code-fork"></i>
                       </span>{{ project.forks }}</button>
