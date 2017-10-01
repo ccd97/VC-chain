@@ -63,7 +63,7 @@
                     <div class="inline" style="margin-top: 10px;">
                       <span class="text-info font-weight-bold margin-10 font-15">{{ file.name }}</span><span class="margin-10">({{ file.size }})</span>
                     </div>
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_authenticated and request.user.username == user.username %}
                       <div class="button-list pull-right m-t-15">
                         <button type="button" class="btn btn-outline-primary waves-effect waves-light" onclick='location.href="{% url 'code-edit' user.username file.project file.branch file.name %}";'>
                         <i class="zmdi zmdi-edit"></i></button>

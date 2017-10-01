@@ -231,3 +231,9 @@ def starProject(request, username, projectname, starrer):
 def unstarProject(request, username, projectname, starrer):
     data_handler.removeStar(username, projectname, starrer)
     return projectExplorerView(request, username, projectname)
+
+
+@login_required
+def forkProject(request, username, projectname, forker):
+    data_handler.makeFork(username, projectname, forker)
+    return projectsListView(request, username)

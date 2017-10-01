@@ -269,9 +269,9 @@ def getProjectExplorerData(username, projectname, branchname=None, logined_usern
         raise Http404("User does not exist")
 
     if branchname is None:
-        project = Project.objects.filter(name__iexact=projectname, is_main_branch=True).first()
+        project = Project.objects.filter(author=user, name__iexact=projectname, is_main_branch=True).first()
     else:
-        project = Project.objects.filter(name__iexact=projectname, branch__iexact=branchname).first()
+        project = Project.objects.filter(author=user, name__iexact=projectname, branch__iexact=branchname).first()
 
     if project is None:
         raise Http404("Project does not exist")
@@ -295,6 +295,7 @@ def getProjectExplorerData(username, projectname, branchname=None, logined_usern
             if f.previous_file is not None and f.previous_file.name != f.name:
                 current_files.pop(f.previous_file.name)
             current_files[f.name] = {
+                "author": f.commit.project.author,
                 "last_commit": f.commit.message,
                 "last_commit_time": f.commit.time,
             }
@@ -302,6 +303,7 @@ def getProjectExplorerData(username, projectname, branchname=None, logined_usern
     for key, value in current_files.items():
         file_data.append({
             "name": key,
+            "author": value['author'],
             "last_commit": value['last_commit'],
             "last_commit_date": value['last_commit_time'].date(),
         })
@@ -313,7 +315,7 @@ def getProjectExplorerData(username, projectname, branchname=None, logined_usern
     fork_count = Fork.objects.filter(original_project=project).count()
 
     branches = []
-    all_branches_project = Project.objects.filter(name__iexact=projectname)
+    all_branches_project = Project.objects.filter(author=user, name__iexact=projectname)
     for p in all_branches_project:
         branches.append(p.branch)
 
@@ -321,7 +323,9 @@ def getProjectExplorerData(username, projectname, branchname=None, logined_usern
         "name": project.name,
         "branch": project.branch,
         "description": project.description,
-        "latest_commit": latest_commit['last_commit'],
+        "latest_commit_msg": latest_commit['last_commit'],
+        "latest_commit_author": latest_commit['author'].username,
+        "latest_commit_author_img": latest_commit['author'].avatar,
         "stars": star_count,
         "forks": fork_count,
         "commits": commits_count,
@@ -338,7 +342,7 @@ def getCommitListData(username, projectname, branchname):
     if user is None:
         raise Http404("User does not exist")
 
-    project = Project.objects.filter(name__iexact=projectname, branch__iexact=branchname).first()
+    project = Project.objects.filter(author=user, name__iexact=projectname, branch__iexact=branchname).first()
 
     if project is None:
         raise Http404("Project does not exist")
@@ -438,7 +442,7 @@ def getFileCodeData(username, projectname, branchname, filename):
     if user is None:
         raise Http404("User does not exist")
 
-    project = Project.objects.filter(name__iexact=projectname, branch__iexact=branchname).first()
+    project = Project.objects.filter(author=user, name__iexact=projectname, branch__iexact=branchname).first()
 
     if project is None:
         raise Http404("Project does not exist")
@@ -465,7 +469,7 @@ def getCommitDiffData(username, projectname, branchname, commitid):
     if user is None:
         raise Http404("User does not exist")
 
-    project = Project.objects.filter(name__iexact=projectname, branch__iexact=branchname).first()
+    project = Project.objects.filter(author=user, name__iexact=projectname, branch__iexact=branchname).first()
 
     if project is None:
         raise Http404("Project does not exist")
@@ -531,7 +535,7 @@ def editFile(username, projectname, branchname, oldfilename, filename, code, com
     if user is None:
         raise Http404("User does not exist")
 
-    project = Project.objects.filter(name__iexact=projectname, branch__iexact=branchname).first()
+    project = Project.objects.filter(author=user, name__iexact=projectname, branch__iexact=branchname).first()
 
     if project is None:
         raise Http404("Project does not exist")
@@ -594,7 +598,7 @@ def addStar(starred_user, starred_project, starrer):
     if user is None or starred_user is None:
         raise Http404("User does not exist")
 
-    project = Project.objects.filter(name__iexact=starred_project, is_main_branch=True).first()
+    project = Project.objects.filter(author=starrer_user, name__iexact=starred_project, is_main_branch=True).first()
 
     if project is None:
         raise Http404("Project does not exist")
@@ -609,9 +613,39 @@ def removeStar(starred_user, starred_project, starrer):
     if user is None or starred_user is None:
         raise Http404("User does not exist")
 
-    project = Project.objects.filter(name__iexact=starred_project, is_main_branch=True).first()
+    project = Project.objects.filter(author=starrer_user, name__iexact=starred_project, is_main_branch=True).first()
 
     if project is None:
         raise Http404("Project does not exist")
 
     Star.objects.filter(user=starrer_user, project=project).delete()
+
+
+def makeFork(original_user, original_project, forker):
+    user = User.objects.filter(username__iexact=original_user).first()
+    forking_user = User.objects.filter(username__iexact=forker).first()
+
+    if user is None or forking_user is None:
+        raise Http404("User does not exist")
+
+    projects = Project.objects.filter(author=user, name__iexact=original_project)
+
+    if projects is None:
+        raise Http404("Project does not exist")
+
+    for p in projects:
+        project = Project.objects.create(name=p.name, branch=p.branch, author=forking_user, description=p.description, is_main_branch=p.is_main_branch, forked_from=p)
+        commits = Commit.objects.filter(project=p)
+        for c in commits:
+            commit = Commit.objects.create(project=project, message=c.message, time=c.time)
+            files = File.objects.filter(commit=c)
+            for f in files:
+                if f.previous_file is not None:
+                    pf = File.objects.filter(commit__project=project, name=f.previous_file.name, size=f.previous_file.size, code=f.previous_file.code).first()
+                else:
+                    pf = None
+                File.objects.create(commit=commit, name=f.name, size=f.size, code=f.code, previous_file=pf)
+
+    main_branch_original = Project.objects.filter(author=user, name__iexact=original_project, is_main_branch=True).first()
+    main_branch_forked = Project.objects.filter(author=forking_user, name__iexact=original_project, is_main_branch=True).first()
+    Fork.objects.create(forked_project=main_branch_forked, original_project=main_branch_original)

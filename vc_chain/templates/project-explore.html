@@ -82,9 +82,21 @@
                         <span class="invisible-button-icon">Star <i class="zmdi zmdi-star-outline"></i>
                         </span>{{ project.stars }}</button>
                       {% endif %}
-                      <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
-                      <span class="invisible-button-icon">Fork <i class="fa fa-code-fork"></i>
-                      </span>{{ project.forks }}</button>
+                      {% if request.user.is_authenticated and not request.user.username == user.username %}
+                        {% if project.forked %}
+                          <button type="button" class="btn btn-primary waves-effect waves-light margin-20">
+                          <span class="invisible-button-icon">Forked <i class="fa fa-code-fork"></i>
+                          </span>{{ project.forks }}</button>
+                        {% else %}
+                          <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20" onclick='location.href="{% url 'project-fork' user.username project.name request.user.username %}"'>
+                          <span class="invisible-button-icon">Fork <i class="fa fa-code-fork"></i>
+                          </span>{{ project.forks }}</button>
+                        {% endif %}
+                      {% else %}
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
+                        <span class="invisible-button-icon">Fork <i class="fa fa-code-fork"></i>
+                        </span>{{ project.forks }}</button>
+                      {% endif %}
                       <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20" onclick='location.href="{% url 'commits-view' user.username project.name project.branch %}"'>
                       <span class="invisible-button-icon">Commit <i class="zmdi zmdi-time-restore"></i>
                       </span>{{ project.commits }}</button>
@@ -97,8 +109,8 @@
               <div class="col-sm-12">
                 <div class="card m-b-20">
                   <div class="card-header project-card-header">
-                    <img src="{{ MEDIA_URL }}{{ user.img }}" alt="user" class="rounded-circle" style="width: 40px">
-                    <span class="inline commit-proj-username text-info font-weight-bold">{{ user.username }}</span> <a href="javascript:void(0);" class="black-link">{{ project.latest_commit }}</a>
+                    <img src="{{ MEDIA_URL }}{{ project.latest_commit_author_img }}" alt="user" class="rounded-circle" style="width: 40px; height: 40px">
+                    <span class="inline commit-proj-username text-info font-weight-bold">{{ project.latest_commit_author }}</span> <a href="javascript:void(0);" class="black-link">{{ project.latest_commit_msg }}</a>
                     {% if request.user.is_authenticated %}
                       <div class="pull-right m-t-15">
                         <button type="button" class="btn btn-outline-primary waves-effect waves-light margin-20">
