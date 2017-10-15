@@ -249,8 +249,8 @@ def getCommitStatsData(username):
             curr_date -= datetime.timedelta(days=1)
         return commit_data
 
-    date = min(commits_count, key=commits_count.get)
-    end_date = max(commits_count, key=commits_count.get)
+    date = min(commits_count.keys()) - datetime.timedelta(days=5)
+    end_date = max(commits_count.keys())
 
     while date <= end_date:
         if date in commits_count:

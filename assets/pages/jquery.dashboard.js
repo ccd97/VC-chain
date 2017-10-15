@@ -15,7 +15,8 @@
             barSizeRatio: 0.4,
             resize: true, //defaulted to true
             gridLineColor: '#eeeeee',
-            barColors: lineColors
+            barColors: lineColors,
+            yLabelFormat: function(y){return y != Math.round(y)?'':y;},
         });
     },
 
