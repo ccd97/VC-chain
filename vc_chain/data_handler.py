@@ -546,6 +546,10 @@ def editFile(username, projectname, branchname, oldfilename, filename, code, com
     File.objects.create(commit=commit, name=filename, size=len(code), code=code, previous_file=old_file)
 
 
+def deleteFile(username, projectname, branchname, filename, commit_msg):
+    editFile(username, projectname, branchname, filename, filename, '', commit_msg)
+
+
 def editProfile(old_username, username, name, email, avatar, password):
     user = User.objects.filter(username__iexact=old_username).first()
     authuser = AuthUser.objects.filter(username__iexact=old_username).first()

@@ -188,7 +188,16 @@ def codeEditFile(request, username, projectname, branchname):
 
     data_handler.editFile(username, projectname, branchname, oldfilename, filename, code, commit_msg)
 
-    return redirect('/user/' + request.user.username + "/projects")
+    return codeView(request, username, projectname, branchname, filename)
+
+
+@login_required
+def codeDeleteFile(request, username, projectname, branchname, filename):
+    commit_msg = request.POST['editorcommit']
+
+    data_handler.deleteFile(username, projectname, branchname, filename, commit_msg)
+
+    return codeView(request, username, projectname, branchname, filename)
 
 
 @login_required
