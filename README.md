@@ -39,11 +39,12 @@
 Branch     			| Description
 -------------------	| -----------------------------------------
 master     			| files are stored on a database
-master-blkchain  	| files are stored on a blockchain (TODO)
+master-blkchain  	| files are stored on a blockchain
 
 
 ##### Notes for blockchain varient
-You need to run blockchain instance provided [here-todo](#) before running this project.<br>
+You need to run blockchain instance `udpS` before running this project.<br>
+If you don't want to run on localhost change IP address in `blkchain/udpS.py` and `blkchain/handler.py`<br>
 Only file data is stored on blockchain; everything else in database.<br>
 It's a simple blockchain and just a concept.
 
@@ -56,7 +57,8 @@ To run the server
 ```
 $ python3 manage.py makemigrations vc_chain
 $ python3 manage.py migrate
-$ python3 manage.py runserver
+$ python3 manage.py udpS
+$ python3 manage.py runserver --noreload
 ```
 
 ### Screenshots

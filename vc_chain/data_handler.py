@@ -1,8 +1,10 @@
-from vc_chain.models import User, Project, Star, Follow, Fork, Commit, File
+from vc_chain.models import User, Project, Star, Follow, Fork, Commit
 from django.http import Http404
 from django.contrib.auth.models import User as AuthUser
 import datetime
 import difflib
+
+from blkchain import handler as chain
 
 
 def getUserData(username, logined_username):
@@ -284,20 +286,24 @@ def getProjectExplorerData(username, projectname, branchname=None, logined_usern
         not_starred = None
         not_forked = None
 
-    files = File.objects.filter(commit__project=project).order_by('commit__time')
+    files = chain.getfiles(commits=[c.commit_id for c in Commit.objects.filter(project=project)])
     current_files = {}
     file_data = []
 
     for f in files:
-        if f.size == "0":
+        if f.size == 0:
             current_files.pop(f.name)
         else:
-            if f.previous_file is not None and f.previous_file.name != f.name:
-                current_files.pop(f.previous_file.name)
+            if f.previous_file != -1:
+                pfile = chain.getfiles(key=f.previous_file)[0]
+                if pfile.name != f.name:
+                    current_files.pop(pfile.name)
+
+            fcommit = Commit.objects.filter(commit_id=f.commit).first()
             current_files[f.name] = {
-                "author": f.commit.project.author,
-                "last_commit": f.commit.message,
-                "last_commit_time": f.commit.time,
+                "author": fcommit.project.author,
+                "last_commit": fcommit.message,
+                "last_commit_time": fcommit.time,
             }
 
     for key, value in current_files.items():
@@ -447,9 +453,14 @@ def getFileCodeData(username, projectname, branchname, filename):
     if project is None:
         raise Http404("Project does not exist")
 
-    req_file = File.objects.filter(commit__project=project, name=filename).order_by('-commit__time').first()
+    req_files = chain.getfiles(commits=[c.commit_id for c in Commit.objects.filter(project=project)], reverse=True)
+    req_file = None
+    for f in req_files:
+        if f.name == filename:
+            req_file = f
+            break
 
-    if req_file is None or req_file.size == "0":
+    if req_file is None or req_file.size == 0:
         raise Http404("File does not exist")
 
     return {
@@ -481,17 +492,21 @@ def getCommitDiffData(username, projectname, branchname, commitid):
 
     diff_str = ""
 
-    files = File.objects.filter(commit=commit)
+    files = chain.getfiles(commits=[commit.commit_id])
 
     file_set = []
     for f in files:
-        file_set.append([f.previous_file, f])
+        if f.previous_file != -1:
+            pfile = chain.getfiles(key=f.previous_file)[0]
+        else:
+            pfile = None
+        file_set.append([pfile, f])
 
     for f_p in file_set:
         old_code = "" if f_p[0] is None else f_p[0].code.splitlines()
-        new_code = "" if f_p[1].size == "0" else f_p[1].code.splitlines()
+        new_code = "" if f_p[1].size == 0 else f_p[1].code.splitlines()
         old_file = "/dev/null" if f_p[0] is None else f_p[0].name
-        new_file = "/dev/null" if f_p[1].size == "0" else f_p[1].name
+        new_file = "/dev/null" if f_p[1].size == 0 else f_p[1].name
         if f_p[0] is None:
             diff_str += "new file mode 100644" + '\n'
         if f_p[1].size == "0":
@@ -526,7 +541,7 @@ def addProject(username, project_name, branch_name, project_descr, commit_msg, f
     commit = Commit.objects.create(project=project, message=commit_msg)
 
     for f in files:
-        File.objects.create(commit=commit, name=f.name, size=f.size, code=f.read())
+        chain.addFile(commit.commit_id, f.name, f.size, f.read().decode("utf-8") , -1)
 
 
 def editFile(username, projectname, branchname, oldfilename, filename, code, commit_message):
@@ -540,10 +555,20 @@ def editFile(username, projectname, branchname, oldfilename, filename, code, com
     if project is None:
         raise Http404("Project does not exist")
 
-    old_file = File.objects.filter(commit__project=project, name=oldfilename).order_by('-commit__time').first()
+    req_files = chain.getfiles(commits=[c.commit_id for c in Commit.objects.filter(project=project)], reverse=True)
+    req_file = None
+    for f in req_files:
+        if f.name == oldfilename:
+            req_file = f
+            break
+    if req_file is None:
+        old_file = -1
+    else:
+        old_file = req_file.key
+
 
     commit = Commit.objects.create(project=project, message=commit_message)
-    File.objects.create(commit=commit, name=filename, size=len(code), code=code, previous_file=old_file)
+    chain.addFile(commit.commit_id, filename, len(code), code, old_file)
 
 
 def deleteFile(username, projectname, branchname, filename, commit_msg):
@@ -642,13 +667,19 @@ def makeFork(original_user, original_project, forker):
         commits = Commit.objects.filter(project=p)
         for c in commits:
             commit = Commit.objects.create(project=project, message=c.message, time=c.time)
-            files = File.objects.filter(commit=c)
+            files = chain.getfiles(commits=[c.commit_id])
             for f in files:
-                if f.previous_file is not None:
-                    pf = File.objects.filter(commit__project=project, name=f.previous_file.name, size=f.previous_file.size, code=f.previous_file.code).first()
+                if f.previous_file != -1:
+                    pfile = chain.getfiles(key=f.previous_file)[0]
+                    req_files = chain.getfiles(commits=[c.commit_id for c in Commit.objects.filter(project=project)])
+                    pf = -1
+                    for rf in req_files:
+                        if rf.name == pfile.name and rf.size == pfile.size and rf.code == pfile.code:
+                            pf = f.key
+                            break
                 else:
-                    pf = None
-                File.objects.create(commit=commit, name=f.name, size=f.size, code=f.code, previous_file=pf)
+                    pf = -1
+                chain.addFile(commit.commit_id, f.name, f.size, f.code, pf)
 
     main_branch_original = Project.objects.filter(author=user, name__iexact=original_project, is_main_branch=True).first()
     main_branch_forked = Project.objects.filter(author=forking_user, name__iexact=original_project, is_main_branch=True).first()

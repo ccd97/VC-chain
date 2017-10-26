@@ -70,14 +70,3 @@ class Commit(models.Model):
 
     def __str__(self):
         return str(self.project) + "-" + str(self.commit_id)
-
-
-class File(models.Model):
-    commit = models.ForeignKey(Commit)
-    name = models.CharField(max_length=50)
-    size = models.CharField(max_length=10)
-    code = models.TextField()
-    previous_file = models.ForeignKey('File', null=True, blank=True)
-
-    def __str__(self):
-        return str(self.commit) + "-" + self.name

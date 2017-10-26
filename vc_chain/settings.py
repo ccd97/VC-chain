@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from blkchain import handler, udpS
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,3 +133,9 @@ LOGIN_REDIRECT_URL = 'dashboard/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
+
+if sys.argv[1] == 'runserver':
+    handler.startClient()
+
+if sys.argv[1] == 'udpS':
+    udpS.start()
