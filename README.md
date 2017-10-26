@@ -39,13 +39,11 @@
 Branch     			| Description
 -------------------	| -----------------------------------------
 master     			| files are stored on a database
-master-blkchain  	| files are stored on a blockchain (TODO)
+master-blkchain  	| files are stored on a blockchain
 
 
 ##### Notes for blockchain varient
-You need to run blockchain instance provided [here-todo](#) before running this project.<br>
-Only file data is stored on blockchain; everything else in database.<br>
-It's a simple blockchain and just a concept.
+See notes in `master-blkchain` branch
 
 ### Usage
 
